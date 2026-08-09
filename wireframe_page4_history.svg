@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="100%" height="100%">
+  <!-- Background White Canvas -->
+  <rect width="1200" height="850" fill="#FFFFFF" />
+
+  <!-- BROWSER WINDOW FRAME -->
+  <rect x="20" y="20" width="1160" height="810" rx="10" fill="#FFFFFF" stroke="#222222" stroke-width="3" />
+  
+  <!-- Browser Title Bar -->
+  <rect x="20" y="20" width="1160" height="35" rx="10" fill="#E5E7EB" stroke="#222222" stroke-width="2" />
+  <text x="600" y="43" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#222222" text-anchor="middle">PhishGuard - Log Riwayat (Wireframe)</text>
+  <circle cx="45" cy="37" r="6" fill="#EF4444" stroke="#222222" stroke-width="1.5" />
+  <circle cx="65" cy="37" r="6" fill="#F59E0B" stroke="#222222" stroke-width="1.5" />
+  <circle cx="85" cy="37" r="6" fill="#10B981" stroke="#222222" stroke-width="1.5" />
+
+  <!-- Address Bar Bar -->
+  <rect x="20" y="55" width="1160" height="40" fill="#F3F4F6" stroke="#222222" stroke-width="2" />
+  <rect x="35" y="62" width="26" height="26" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="43" y="80" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#222222">←</text>
+  <rect x="68" y="62" width="26" height="26" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="76" y="80" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#222222">→</text>
+  <rect x="101" y="62" width="26" height="26" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="108" y="80" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#222222">↻</text>
+  
+  <rect x="140" y="62" width="1020" height="26" rx="13" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="160" y="79" font-family="monospace" font-size="12" fill="#333333">http://localhost:5000/</text>
+
+  <!-- Navbar Area -->
+  <rect x="20" y="95" width="1160" height="60" fill="#F9FAFB" stroke="#222222" stroke-width="2" />
+  
+  <!-- Logo Box [X] -->
+  <rect x="50" y="107" width="36" height="36" rx="6" fill="#E5E7EB" stroke="#222222" stroke-width="2" />
+  <line x1="50" y1="107" x2="86" y2="143" stroke="#222222" stroke-width="2" />
+  <line x1="86" y1="107" x2="50" y2="143" stroke="#222222" stroke-width="2" />
+  <text x="95" y="130" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#222222">PhishGuard</text>
+  
+  <!-- Navigation Tabs -->
+  <rect x="750" y="107" width="400" height="36" rx="8" fill="#E5E7EB" stroke="#222222" stroke-width="2" />
+  <rect x="754" y="111" width="95" height="28" rx="6" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="767" y="129" font-family="Arial, sans-serif" font-size="11" fill="#222222">URL Scanner</text>
+  
+  <rect x="855" y="111" width="85" height="28" rx="6" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="870" y="129" font-family="Arial, sans-serif" font-size="11" fill="#222222">Dashboard</text>
+
+  <rect x="945" y="111" width="90" height="28" rx="6" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="955" y="129" font-family="Arial, sans-serif" font-size="11" fill="#222222">Blacklist (5)</text>
+
+  <rect x="1040" y="111" width="100" height="28" rx="6" fill="#222222" />
+  <text x="1052" y="130" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">Log Riwayat</text>
+
+  <!-- Title & Refresh Button -->
+  <text x="100" y="185" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#222222">Log Rekam Jejak Pengecekan (tbl_riwayat)</text>
+  <text x="100" y="208" font-family="Arial, sans-serif" font-size="12" fill="#6B7280">Audit trail seluruh transaksi URL yang pernah dipindai oleh pengguna pada aplikasi web.</text>
+
+  <rect x="990" y="170" width="110" height="35" rx="6" fill="#E5E7EB" stroke="#222222" stroke-width="1.5" />
+  <text x="1005" y="192" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">🔄 Refresh Log</text>
+
+  <!-- Table Container Card Wireframe -->
+  <rect x="100" y="230" width="1000" height="560" rx="12" fill="#FFFFFF" stroke="#222222" stroke-width="2.5" />
+
+  <!-- Table Header -->
+  <rect x="100" y="230" width="1000" height="45" rx="12" fill="#F3F4F6" stroke="#222222" stroke-width="1" />
+  <text x="130" y="258" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">ID</text>
+  <text x="180" y="258" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">WAKTU SCAN</text>
+  <text x="340" y="258" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">URL TARGET</text>
+  <text x="630" y="258" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">STATUS HASIL</text>
+  <text x="790" y="258" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">SCORE</text>
+  <text x="870" y="258" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">METODE LAPISAN</text>
+  <text x="1030" y="258" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222222">AKSI</text>
+
+  <line x1="100" y1="275" x2="1100" y2="275" stroke="#222222" stroke-width="2" />
+
+  <!-- Table Row 1 -->
+  <text x="130" y="315" font-family="monospace" font-size="12" font-weight="bold" fill="#6B7280">#10</text>
+  <text x="180" y="315" font-family="monospace" font-size="11" fill="#4B5563">2026-08-09 14:25</text>
+  <text x="340" y="315" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">https://mafia78.online</text>
+  <rect x="630" y="298" width="110" height="24" rx="12" fill="#E5E7EB" stroke="#222222" stroke-width="1.5" />
+  <text x="642" y="314" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#222222">❌ PHISHING</text>
+  <text x="790" y="315" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">97.0%</text>
+  <text x="870" y="315" font-family="Arial, sans-serif" font-size="12" fill="#4B5563">GA + Random Forest Model</text>
+  <rect x="1030" y="298" width="30" height="24" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="1038" y="314" font-family="Arial, sans-serif" font-size="12">🗑️</text>
+  <line x1="100" y1="340" x2="1100" y2="340" stroke="#222222" stroke-width="1" />
+
+  <!-- Table Row 2 -->
+  <text x="130" y="380" font-family="monospace" font-size="12" font-weight="bold" fill="#6B7280">#9</text>
+  <text x="180" y="380" font-family="monospace" font-size="11" fill="#4B5563">2026-08-09 14:25</text>
+  <text x="340" y="380" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">https://ajdklajsdlkjalksd.co.id</text>
+  <rect x="630" y="363" width="110" height="24" rx="12" fill="#E5E7EB" stroke="#222222" stroke-width="1.5" />
+  <text x="642" y="379" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#222222">❌ PHISHING</text>
+  <text x="790" y="380" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">100.0%</text>
+  <text x="870" y="380" font-family="Arial, sans-serif" font-size="12" fill="#4B5563">GA + Random Forest Model</text>
+  <rect x="1030" y="363" width="30" height="24" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="1038" y="379" font-family="Arial, sans-serif" font-size="12">🗑️</text>
+  <line x1="100" y1="405" x2="1100" y2="405" stroke="#222222" stroke-width="1" />
+
+  <!-- Table Row 3 -->
+  <text x="130" y="445" font-family="monospace" font-size="12" font-weight="bold" fill="#6B7280">#6</text>
+  <text x="180" y="445" font-family="monospace" font-size="11" fill="#4B5563">2026-08-09 14:16</text>
+  <text x="340" y="445" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">https://google.com</text>
+  <rect x="630" y="428" width="130" height="24" rx="12" fill="#E5E7EB" stroke="#222222" stroke-width="1.5" />
+  <text x="640" y="444" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#222222">✅ LEGITIMATE</text>
+  <text x="790" y="445" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">100.0%</text>
+  <text x="870" y="445" font-family="Arial, sans-serif" font-size="12" fill="#4B5563">GA + Random Forest Model</text>
+  <rect x="1030" y="428" width="30" height="24" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="1038" y="444" font-family="Arial, sans-serif" font-size="12">🗑️</text>
+  <line x1="100" y1="470" x2="1100" y2="470" stroke="#222222" stroke-width="1" />
+
+  <!-- Table Row 4 -->
+  <text x="130" y="510" font-family="monospace" font-size="12" font-weight="bold" fill="#6B7280">#5</text>
+  <text x="180" y="510" font-family="monospace" font-size="11" fill="#4B5563">2026-08-09 14:16</text>
+  <text x="340" y="510" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">https://paypal.com</text>
+  <rect x="630" y="493" width="130" height="24" rx="12" fill="#E5E7EB" stroke="#222222" stroke-width="1.5" />
+  <text x="640" y="509" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#222222">✅ LEGITIMATE</text>
+  <text x="790" y="510" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">100.0%</text>
+  <text x="870" y="510" font-family="Arial, sans-serif" font-size="12" fill="#4B5563">GA + Random Forest Model</text>
+  <rect x="1030" y="493" width="30" height="24" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="1038" y="509" font-family="Arial, sans-serif" font-size="12">🗑️</text>
+  <line x1="100" y1="535" x2="1100" y2="535" stroke="#222222" stroke-width="1" />
+
+  <!-- Table Row 5 -->
+  <text x="130" y="575" font-family="monospace" font-size="12" font-weight="bold" fill="#6B7280">#2</text>
+  <text x="180" y="575" font-family="monospace" font-size="11" fill="#4B5563">2026-08-09 14:16</text>
+  <text x="340" y="575" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">https://xnxx.com</text>
+  <rect x="630" y="558" width="110" height="24" rx="12" fill="#E5E7EB" stroke="#222222" stroke-width="1.5" />
+  <text x="642" y="574" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#222222">❌ PHISHING</text>
+  <text x="790" y="575" font-family="monospace" font-size="12" font-weight="bold" fill="#222222">93.0%</text>
+  <text x="870" y="575" font-family="Arial, sans-serif" font-size="12" fill="#4B5563">GA + Random Forest Model</text>
+  <rect x="1030" y="558" width="30" height="24" rx="4" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  <text x="1038" y="574" font-family="Arial, sans-serif" font-size="12">🗑️</text>
+
+  <text x="600" y="810" font-family="Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle">Wireframe Halaman 4: Log Rekam Jejak (Bab 4 Skripsi - Hafiz Alfarisyi)</text>
+</svg>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard | Sistem Deteksi Link Phishing Hybrid GA + Random Forest</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue.js 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0B0F17',
+                        cardbg: 'rgba(17, 24, 39, 0.8)',
+                        cardborder: 'rgba(255, 255, 255, 0.08)',
+                        brandcyan: '#06B6D4',
+                        brandblue: '#3B82F6',
+                        brandphish: '#EF4444',
+                        brandsafe: '#10B981'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0B0F17;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+            color: #E5E7EB;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .glass-input {
+            background: rgba(11, 15, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .glass-input:focus {
+            border-color: #06B6D4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+        }
+        .glow-phish {
+            box-shadow: 0 0 35px rgba(239, 68, 68, 0.3);
+        }
+        .glow-safe {
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.3);
+        }
+        .nav-tab.active {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+            border-color: #06B6D4;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans flex flex-col antialiased">
+
+    <div id="app" class="flex-1 flex flex-col">
+        <!-- HEADER / NAVIGATION -->
+        <header class="border-b border-gray-800 bg-gray-900/60 backdrop-blur-md sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+                    <!-- BRAND LOGO -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                            <i class="fa-solid fa-shield-halved text-2xl text-white"></i>
+                        </div>
+                        <div>
+                            <span class="font-heading text-2xl font-extrabold tracking-wide text-white">Phish<span class="text-cyan-400">Guard</span></span>
+                            <span class="block text-xs font-medium text-gray-400">Hybrid GA + Random Forest Detection System</span>
+                        </div>
+                    </div>
+
+                    <!-- TABS NAVIGATION -->
+                    <nav class="hidden md:flex space-x-2 bg-gray-950/80 p-1.5 rounded-xl border border-gray-800">
+                        <button @click="activeTab = 'scanner'" :class="{'active': activeTab === 'scanner'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-radar"></i> URL Scanner
+                        </button>
+                        <button @click="activeTab = 'dashboard'" :class="{'active': activeTab === 'dashboard'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie"></i> Dashboard
+                        </button>
+                        <button @click="activeTab = 'blacklist'" :class="{'active': activeTab === 'blacklist'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-ban"></i> Blacklist <span class="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded-full border border-red-500/30">[[ stats.blacklist_count || 0 ]]</span>
+                        </button>
+                        <button @click="activeTab = 'history'" :class="{'active': activeTab === 'history'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-clock-history"></i> Log Riwayat
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- ================= TAB 1: URL SCANNER ================= -->
+            <section v-if="activeTab === 'scanner'" class="space-y-8">
+                <!-- HERO SECTION -->
+                <div class="text-center max-w-3xl mx-auto space-y-4 pt-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
+                        <i class="fa-solid fa-bolt"></i> Real-time Zero-Day Protection
+                    </div>
+                    <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        Cek Keamanan Link URL Secara Instant & Akurat
+                    </h1>
+                    <p class="text-gray-400 text-base">
+                        Sistem menyaring URL melalui <span class="text-cyan-400 font-semibold">Tabel Blacklist</span>, diekstrak <span class="text-blue-400 font-semibold">20 Fitur Leksikal GA</span>, dan diklasifikasikan oleh model <span class="text-purple-400 font-semibold">Random Forest (Akurasi 99.68%)</span>.
+                    </p>
+                </div>
+
+                <!-- SCANNER INPUT FORM -->
+                <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto">
+                    <form @submit.prevent="runScan" class="space-y-4">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <div class="relative flex-1">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                                    <i class="fa-solid fa-link text-lg"></i>
+                                </div>
+                                <input v-model="scanUrlInput" type="text" placeholder="Masukkan URL tautan yang dicurigai (misal: youtube.com atau http://contoh-phishing.com/login)" class="glass-input w-full pl-11 pr-24 py-4 rounded-xl text-white placeholder-gray-500 text-sm focus:outline-none transition duration-200">
+                                <button type="button" @click="pasteFromClipboard" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-gray-300 transition">
+                                    <i class="fa-regular fa-clipboard"></i> Tempel
+                                </button>
+                            </div>
+                            <button type="submit" :disabled="isScanning" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-cyan-500/25 transition duration-200 flex items-center justify-center gap-3 disabled:opacity-50">
+                                <i v-if="isScanning" class="fa-solid fa-circle-notch fa-spin text-lg"></i>
+                                <i v-else class="fa-solid fa-magnifying-glass text-lg"></i>
+                                <span>[[ isScanning ? 'Menganalisis...' : 'Periksa Link' ]]</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- SAMPLE QUICK TEST BUTTONS -->
+                    <div class="mt-4 pt-4 border-t border-gray-800/80 flex flex-wrap items-center gap-2 text-xs">
+                        <span class="text-gray-400 font-medium">Uji Coba Sampel:</span>
+                        <button @click="fillSample('http://phishing-bank-fake-login.com')" class="px-2.5 py-1 rounded-md bg-red-950/60 border border-red-800/50 text-red-300 hover:bg-red-900/80 transition">
+                            🚨 Sample Blacklist Hit
+                        </button>
+                        <button @click="fillSample('http://secure-bank-login-update-account-verification.com/index.html?ref=123%20obf')" class="px-2.5 py-1 rounded-md bg-amber-950/60 border border-amber-800/50 text-amber-300 hover:bg-amber-900/80 transition">
+                            ⚠️ Sample Zero-Day Phishing
+                        </button>
+                        <button @click="fillSample('youtube.com')" class="px-2.5 py-1 rounded-md bg-emerald-950/60 border border-emerald-800/50 text-emerald-300 hover:bg-emerald-900/80 transition">
+                            ✅ Sample URL Aman (youtube.com)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SCANNING PROGRESS INDICATOR -->
+                <div v-if="isScanning" class="glass-card rounded-2xl p-6 max-w-4xl mx-auto space-y-4 animate-pulse">
+                    <div class="flex items-center justify-between text-sm font-medium">
+                        <span class="text-cyan-400 flex items-center gap-2">
+                            <i class="fa-solid fa-microchip fa-spin"></i> [[ scanStepText ]]
+                        </span>
+                        <span class="text-gray-400">Tahap [[ scanStep ]]/4</span>
+                    </div>
+                    <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full transition-all duration-300" :style="{ width: (scanStep * 25) + '%' }"></div>
+                    </div>
+                </div>
+
+                <!-- RESULT CARD SECTION -->
+                <div v-if="scanResult && !isScanning" class="max-w-4xl mx-auto space-y-6">
+                    <div class="glass-card rounded-2xl p-6 sm:p-8 transition-all duration-300" :class="scanResult.is_phishing ? 'border-red-500/50 glow-phish' : 'border-emerald-500/50 glow-safe'">
+                        
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                            <!-- RESULT BADGE & TEXT -->
+                            <div class="space-y-3 text-center md:text-left flex-1">
+                                <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                                    <span v-if="scanResult.is_phishing" class="px-3.5 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                        <i class="fa-solid fa-triangle-exclamation"></i> Link Terdeteksi: Phishing / Tidak Aman
+                                    </span>
+                                    <span v-else class="px-3.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                        <i class="fa-solid fa-circle-check"></i> Link Terdeteksi: Aman / Legitimate
+                                    </span>
+
+                                    <span class="px-3 py-1 rounded-full bg-gray-800 border border-gray-700 text-gray-300 text-xs font-medium">
+                                        Metode: [[ scanResult.source_detection ]]
+                                    </span>
+                                </div>
+
+                                <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-white break-all">
+                                    [[ scanUrlInput ]]
+                                </h2>
+
+                                <p class="text-sm text-gray-300">
+                                    <span v-if="scanResult.is_phishing" class="text-red-400 font-medium">
+                                        ⚠️ Tautan ini sangat berbahaya! Jangan memasukkan kata sandi, kode OTP, atau informasi keuangan pribadi pada halaman ini.
+                                    </span>
+                                    <span v-else class="text-emerald-400 font-medium">
+                                        ✓ Karakteristik leksikal URL konsisten dengan standar tautan sah/asli.
+                                    </span>
+                                </p>
+                            </div>
+
+                            <!-- RISK SCORE / SAFETY GAUGE BOX -->
+                            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-950/60 border border-gray-800 min-w-[190px]">
+                                <span class="text-[11px] text-gray-400 uppercase font-semibold mb-1">
+                                    [[ scanResult.is_phishing ? 'Skor Risiko Phishing' : 'Skor Tingkat Keamanan' ]]
+                                </span>
+                                <div class="text-3xl font-heading font-black" :class="scanResult.is_phishing ? 'text-red-400' : 'text-emerald-400'">
+                                    [[ scanResult.probability ]]%
+                                </div>
+                                <span class="text-[11px] font-semibold mt-1" :class="scanResult.is_phishing ? 'text-red-400' : 'text-emerald-400'">
+                                    [[ scanResult.is_phishing ? 'Terdeteksi Phishing' : 'Terverifikasi Aman' ]]
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- ZERO-DAY DEFENSE NOTIFICATION -->
+                        <div v-if="scanResult.zero_day" class="mt-6 p-4 rounded-xl bg-red-950/40 border border-red-800/60 flex items-start gap-3">
+                            <i class="fa-solid fa-shield-virus text-red-400 text-xl mt-0.5"></i>
+                            <div>
+                                <h4 class="text-sm font-bold text-red-300">🛡️ Proteksi Zero-Day Security Aktif!</h4>
+                                <p class="text-xs text-gray-300 mt-0.5">
+                                    Tautan ini belum pernah terdaftar di blacklist lokal sebelumnya. Karena Random Forest mengidentifikasinya sebagai ancaman Phishing, sistem secara otomatis mengekspor & menyimpan URL ini ke <span class="text-red-400 font-mono">tbl_blacklist</span> agar pengecekan berikutnya berjalan instan.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- TOGGLE FEATURE BREAKDOWN -->
+                        <div class="mt-6 pt-6 border-t border-gray-800 flex items-center justify-between">
+                            <span class="text-xs text-gray-400 font-medium">
+                                Real-time Feature Vector: 20 Fitur GA
+                            </span>
+                            <button @click="showFeatureModal = !showFeatureModal" class="text-xs text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-sliders"></i> [[ showFeatureModal ? 'Sembunyikan Nilai Fitur' : 'Lihat 20 Nilai Fitur Terpilih' ]]
+                            </button>
+                        </div>
+
+                        <!-- FEATURE BREAKDOWN GRID -->
+                        <div v-if="showFeatureModal" class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-2">
+                            <div v-for="(val, key) in scanResult.features" :key="key" class="p-2.5 rounded-lg bg-gray-950/80 border border-gray-800/80 flex flex-col justify-between">
+                                <span class="text-gray-400 font-mono text-[11px] truncate">[[ key ]]</span>
+                                <span class="font-bold text-white mt-1 font-mono text-sm">[[ val ]]</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 2: DASHBOARD ANALYTICS ================= -->
+            <section v-if="activeTab === 'dashboard'" class="space-y-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-heading font-extrabold text-white">Dashboard Monitoring Sistem</h2>
+                        <p class="text-sm text-gray-400">Ringkasan aktivitas deteksi dan pertahanan keamanan sistem.</p>
+                    </div>
+                    <button @click="fetchStats" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-gray-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate-right"></i> Refresh Stats
+                    </button>
+                </div>
+
+                <!-- STATS CARDS GRID -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="glass-card p-6 rounded-2xl space-y-2">
+                        <div class="flex items-center justify-between text-cyan-400">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Total Scan URL</span>
+                            <i class="fa-solid fa-globe text-xl"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.total_scans || 0 ]]</div>
+                        <p class="text-xs text-gray-500">Seluruh transaksi pemindaian</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl space-y-2 border-l-4 border-l-red-500">
+                        <div class="flex items-center justify-between text-red-400">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Phishing Terdeteksi</span>
+                            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.phishing_count || 0 ]]</div>
+                        <p class="text-xs text-gray-500">Ancaman berhasil dicegat</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl space-y-2 border-l-4 border-l-emerald-500">
+                        <div class="flex items-center justify-between text-emerald-400">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">URL Aman (Legitimate)</span>
+                            <i class="fa-solid fa-circle-check text-xl"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.legitimate_count || 0 ]]</div>
+                        <p class="text-xs text-gray-500">Tautan diverifikasi sah</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl space-y-2 border-l-4 border-l-purple-500">
+                        <div class="flex items-center justify-between text-purple-400">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Zero-Day Blacklisted</span>
+                            <i class="fa-solid fa-shield-virus text-xl"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.zero_day_count || 0 ]]</div>
+                        <p class="text-xs text-gray-500">URL Phishing baru di-auto-blacklist</p>
+                    </div>
+                </div>
+
+                <!-- DEMO DOSEN: AUTO-LEARNING ENGINE CONTROL -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl space-y-4 border border-cyan-500/30">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="px-2.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+                                🤖 Fitur Simulasi Pembelajaran Mandiri (Auto-Learning Idle Engine)
+                            </span>
+                            <h3 class="text-lg font-bold text-white mt-1">Simulasi Generasi & Analisis Sintetis Link Phishing Zero-Day</h3>
+                            <p class="text-xs text-gray-400">
+                                Fitur ini mensimulasikan sistem saat tidak digunakan (idle), di mana model GA+RF secara otomatis mempelajari variasi sintesis URL phishing baru tanpa melakukan crawling jaringan.
+                            </p>
+                        </div>
+                        <button @click="triggerAutoLearning" :disabled="isAutoLearning" class="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition disabled:opacity-50 whitespace-nowrap">
+                            <i v-if="isAutoLearning" class="fa-solid fa-circle-notch fa-spin text-sm"></i>
+                            <i v-else class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+                            <span>[[ isAutoLearning ? 'Mempelajari Pola...' : 'Jalankan Auto-Learning' ]]</span>
+                        </button>
+                    </div>
+
+                    <!-- AUTO LEARNING LOG RESULTS -->
+                    <div v-if="autoLearningLogs.length > 0" class="mt-4 p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2 text-xs">
+                        <div class="font-bold text-cyan-400 flex items-center justify-between">
+                            <span>Log Hasil Auto-Learning Sintetis:</span>
+                            <span class="text-gray-500 text-[11px]">[[ autoLearningLogs.length ]] Pola Diproses</span>
+                        </div>
+                        <div v-for="(log, idx) in autoLearningLogs" :key="idx" class="p-2.5 rounded bg-gray-900 border border-gray-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="space-y-0.5">
+                                <span class="font-mono text-white text-xs font-semibold">[[ log.url ]]</span>
+                                <span class="block text-gray-400 text-[11px]">Confidence GA+RF: <span class="text-red-400 font-bold">[[ log.phishing_confidence ]]%</span></span>
+                            </div>
+                            <span class="px-2 py-1 rounded bg-red-500/20 text-red-300 font-medium text-[11px] border border-red-500/30 whitespace-nowrap">
+                                ✓ Otomatis Masuk tbl_blacklist
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 3: BLACKLIST MANAGER ================= -->
+            <section v-if="activeTab === 'blacklist'" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-heading font-extrabold text-white">Manajemen Database Blacklist (tbl_blacklist)</h2>
+                        <p class="text-sm text-gray-400">Daftar tautan berbahaya yang disaring pada Lapisan Pertahanan Pertama.</p>
+                    </div>
+                    <button @click="showAddBlacklistModal = true" class="px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-600/20 transition">
+                        <i class="fa-solid fa-plus"></i> Tambah URL Manual
+                    </button>
+                </div>
+
+                <!-- BLACKLIST TABLE -->
+                <div class="glass-card rounded-2xl overflow-hidden border border-gray-800">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-950/80 text-gray-400 text-xs font-semibold uppercase tracking-wider border-b border-gray-800">
+                                    <th class="p-4">ID</th>
+                                    <th class="p-4">URL Blacklist</th>
+                                    <th class="p-4">Domain</th>
+                                    <th class="p-4">Alasan & Signifikansi</th>
+                                    <th class="p-4">Sumber</th>
+                                    <th class="p-4">Tanggal Masuk</th>
+                                    <th class="p-4 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800/60 text-xs text-gray-300">
+                                <tr v-for="item in blacklists" :key="item.id" class="hover:bg-gray-800/30 transition">
+                                    <td class="p-4 font-mono font-bold text-gray-400">#[[ item.id ]]</td>
+                                    <td class="p-4 font-mono font-bold text-red-400 max-w-xs truncate">[[ item.url ]]</td>
+                                    <td class="p-4 font-mono text-gray-300">[[ item.domain ]]</td>
+                                    <td class="p-4 text-gray-400">[[ item.reason ]]</td>
+                                    <td class="p-4">
+                                        <span v-if="item.source === 'zero_day'" class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 font-medium">
+                                            🛡️ Zero-Day Defense
+                                        </span>
+                                        <span v-else-if="item.source === 'auto_learning'" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium">
+                                            🤖 Auto-Learning
+                                        </span>
+                                        <span v-else class="px-2 py-0.5 rounded bg-gray-800 text-gray-300 border border-gray-700 font-medium">
+                                            👤 Manual Admin
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-gray-400 font-mono text-[11px]">[[ item.created_at ]]</td>
+                                    <td class="p-4 text-center">
+                                        <button @click="deleteBlacklist(item.id)" class="px-2.5 py-1 rounded bg-red-950 hover:bg-red-900 text-red-400 border border-red-800 transition">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr v-if="blacklists.length === 0">
+                                    <td colspan="7" class="p-8 text-center text-gray-500">Belum ada data blacklist tersimpan.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 4: LOG RIWAYAT ================= -->
+            <section v-if="activeTab === 'history'" class="space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-heading font-extrabold text-white">Log Rekam Jejak Pengecekan (tbl_riwayat)</h2>
+                        <p class="text-sm text-gray-400">Audit trail seluruh URL yang pernah dipindai oleh pengguna.</p>
+                    </div>
+                    <button @click="fetchHistory" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-gray-300">
+                        <i class="fa-solid fa-rotate-right"></i> Refresh Log
+                    </button>
+                </div>
+
+                <!-- HISTORY TABLE -->
+                <div class="glass-card rounded-2xl overflow-hidden border border-gray-800">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-950/80 text-gray-400 text-xs font-semibold uppercase tracking-wider border-b border-gray-800">
+                                    <th class="p-4">ID</th>
+                                    <th class="p-4">Waktu Scan</th>
+                                    <th class="p-4">URL Target</th>
+                                    <th class="p-4">Status Hasil</th>
+                                    <th class="p-4">Confidence Score</th>
+                                    <th class="p-4">Metode Lapisan</th>
+                                    <th class="p-4 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800/60 text-xs text-gray-300">
+                                <tr v-for="log in historyLogs" :key="log.id" class="hover:bg-gray-800/30 transition">
+                                    <td class="p-4 font-mono font-bold text-gray-400">#[[ log.id ]]</td>
+                                    <td class="p-4 font-mono text-gray-400 text-[11px]">[[ log.scan_time ]]</td>
+                                    <td class="p-4 font-mono font-bold text-white max-w-xs truncate">[[ log.url ]]</td>
+                                    <td class="p-4">
+                                        <span v-if="log.status === 'Phishing'" class="px-2.5 py-1 rounded-full bg-red-500/20 text-red-400 border border-red-500/40 font-bold uppercase text-[11px]">
+                                            ❌ Phishing
+                                        </span>
+                                        <span v-else class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold uppercase text-[11px]">
+                                            ✅ Legitimate / Aman
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold" :class="log.status === 'Phishing' ? 'text-red-400' : 'text-emerald-400'">
+                                        [[ log.probability ]]%
+                                    </td>
+                                    <td class="p-4 font-medium text-gray-300">[[ log.source_detection ]]</td>
+                                    <td class="p-4 text-center">
+                                        <button @click="deleteHistory(log.id)" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 text-gray-400 transition">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr v-if="historyLogs.length === 0">
+                                    <td colspan="7" class="p-8 text-center text-gray-500">Belum ada riwayat pengecekan URL.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-gray-800/80 bg-gray-950/60 py-6 text-center text-xs text-gray-500">
+            <div class="max-w-7xl mx-auto px-4">
+                <p>Projek Skripsi Teknik Informatika - Hafiz Alfarisyi (NIM: 221420112)</p>
+                <p class="mt-1">Implementasi Metode Hybrid Genetic Algorithm (GA) dan Random Forest (RF) untuk Deteksi Dini Link Phishing</p>
+            </div>
+        </footer>
+
+        <!-- MODAL TAMBAH BLACKLIST MANUAL -->
+        <div v-if="showAddBlacklistModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="glass-card rounded-2xl p-6 max-w-md w-full space-y-4">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <h3 class="text-lg font-bold text-white">Tambah URL Ke Blacklist Manual</h3>
+                    <button @click="showAddBlacklistModal = false" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                <form @submit.prevent="submitAddBlacklist" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">URL Target Phishing</label>
+                        <input v-model="newBlacklistUrl" type="text" placeholder="http://contoh-phishing.com" required class="glass-input w-full p-3 rounded-xl text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Alasan / Catatan Keterangan</label>
+                        <input v-model="newBlacklistReason" type="text" placeholder="Laporan penipuan pengguna" class="glass-input w-full p-3 rounded-xl text-xs text-white">
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2">
+                        <button type="button" @click="showAddBlacklistModal = false" class="px-4 py-2 rounded-xl bg-gray-800 text-xs font-medium text-gray-300">Batal</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-600 text-xs font-semibold text-white shadow-lg shadow-cyan-600/30">Simpan Ke Blacklist</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- VUE 3 APPLICATION SCRIPT -->
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            delimiters: ['[[', ']]'],
+            data() {
+                return {
+                    activeTab: 'scanner',
+                    scanUrlInput: '',
+                    isScanning: false,
+                    scanStep: 1,
+                    scanStepText: 'Memeriksa Database Blacklist...',
+                    scanResult: null,
+                    showFeatureModal: false,
+                    stats: {},
+                    blacklists: [],
+                    historyLogs: [],
+                    autoLearningLogs: [],
+                    isAutoLearning: false,
+                    showAddBlacklistModal: false,
+                    newBlacklistUrl: '',
+                    newBlacklistReason: ''
+                }
+            },
+            mounted() {
+                this.fetchStats();
+                this.fetchBlacklists();
+                this.fetchHistory();
+            },
+            methods: {
+                fillSample(url) {
+                    this.scanUrlInput = url;
+                },
+                async pasteFromClipboard() {
+                    try {
+                        const text = await navigator.clipboard.readText();
+                        if (text) this.scanUrlInput = text.trim();
+                    } catch (e) {
+                        alert("Tidak dapat mengakses clipboard secara otomatis. Silakan paste manual.");
+                    }
+                },
+                async runScan() {
+                    if (!this.scanUrlInput.trim()) return;
+
+                    this.isScanning = true;
+                    this.scanResult = null;
+                    this.scanStep = 1;
+                    this.scanStepText = 'Memeriksa Database Blacklist (tbl_blacklist)...';
+
+                    await new Promise(r => setTimeout(r, 300));
+                    this.scanStep = 2;
+                    this.scanStepText = 'Ekstraksi 20 Fitur Leksikal Genetic Algorithm...';
+
+                    await new Promise(r => setTimeout(r, 300));
+                    this.scanStep = 3;
+                    this.scanStepText = 'Klasifikasi Prediksi Model Random Forest...';
+
+                    await new Promise(r => setTimeout(r, 200));
+                    this.scanStep = 4;
+                    this.scanStepText = 'Evaluasi Pertahanan Zero-Day Security...';
+
+                    try {
+                        const res = await fetch('/api/scan', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ url: this.scanUrlInput })
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            this.scanResult = data;
+                            this.fetchStats();
+                            this.fetchBlacklists();
+                            this.fetchHistory();
+                        } else {
+                            alert(data.message || "Terjadi kesalahan saat memindai URL.");
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        alert("Gagal terhubung ke server backend.");
+                    } finally {
+                        this.isScanning = false;
+                    }
+                },
+                async fetchStats() {
+                    try {
+                        const res = await fetch('/api/stats');
+                        this.stats = await res.json();
+                    } catch (e) { console.error(e); }
+                },
+                async fetchBlacklists() {
+                    try {
+                        const res = await fetch('/api/blacklist');
+                        this.blacklists = await res.json();
+                    } catch (e) { console.error(e); }
+                },
+                async fetchHistory() {
+                    try {
+                        const res = await fetch('/api/riwayat');
+                        this.historyLogs = await res.json();
+                    } catch (e) { console.error(e); }
+                },
+                async deleteBlacklist(id) {
+                    if (!confirm("Hapus URL ini dari daftar blacklist?")) return;
+                    try {
+                        await fetch(`/api/blacklist/${id}`, { method: 'DELETE' });
+                        this.fetchBlacklists();
+                        this.fetchStats();
+                    } catch (e) { console.error(e); }
+                },
+                async deleteHistory(id) {
+                    try {
+                        await fetch(`/api/riwayat/${id}`, { method: 'DELETE' });
+                        this.fetchHistory();
+                        this.fetchStats();
+                    } catch (e) { console.error(e); }
+                },
+                async submitAddBlacklist() {
+                    if (!this.newBlacklistUrl) return;
+                    try {
+                        const res = await fetch('/api/blacklist', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ url: this.newBlacklistUrl, reason: this.newBlacklistReason })
+                        });
+                        if (res.ok) {
+                            this.showAddBlacklistModal = false;
+                            this.newBlacklistUrl = '';
+                            this.newBlacklistReason = '';
+                            this.fetchBlacklists();
+                            this.fetchStats();
+                        }
+                    } catch (e) { console.error(e); }
+                },
+                async triggerAutoLearning() {
+                    this.isAutoLearning = true;
+                    try {
+                        const res = await fetch('/api/auto-learning', { method: 'POST' });
+                        const data = await res.json();
+                        if (res.ok) {
+                            this.autoLearningLogs = data.patterns;
+                            this.fetchBlacklists();
+                            this.fetchStats();
+                        }
+                    } catch (e) { console.error(e); }
+                    finally {
+                        this.isAutoLearning = false;
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

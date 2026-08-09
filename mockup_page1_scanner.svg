@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17" />
+      <stop offset="50%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#0B0F17" />
+    </linearGradient>
+    
+    <!-- Glass Card Gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1F2937" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#111827" stop-opacity="0.9" />
+    </linearGradient>
+
+    <!-- Button Cyan Gradient -->
+    <linearGradient id="btnCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+
+    <!-- Badge Safe Gradient -->
+    <linearGradient id="badgeSafe" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0.3" />
+    </linearGradient>
+
+    <!-- Glow Effect -->
+    <filter id="glowSafe" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+
+  <!-- Navbar -->
+  <rect x="0" y="0" width="1200" height="70" fill="#111827" fill-opacity="0.8" stroke="#1F2937" stroke-width="1" />
+  
+  <!-- Logo -->
+  <rect x="50" y="15" width="40" height="40" rx="10" fill="url(#btnCyan)" />
+  <path d="M70 25 L80 30 L80 40 C80 47 70 52 70 52 C70 52 60 47 60 40 L60 30 Z" fill="#FFFFFF" />
+  <text x="100" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFFFFF">Phish<tspan fill="#06B6D4">Guard</tspan></text>
+  <text x="100" y="52" font-family="Arial, sans-serif" font-size="10" fill="#9CA3AF">Hybrid GA + Random Forest Detection System</text>
+
+  <!-- Nav Tabs -->
+  <rect x="750" y="15" width="400" height="40" rx="10" fill="#030712" stroke="#1F2937" />
+  <rect x="755" y="20" width="95" height="30" rx="6" fill="url(#btnCyan)" />
+  <text x="770" y="40" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">URL Scanner</text>
+  <text x="868" y="40" font-family="Arial, sans-serif" font-size="12" fill="#9CA3AF">Dashboard</text>
+  <text x="955" y="40" font-family="Arial, sans-serif" font-size="12" fill="#9CA3AF">Blacklist (5)</text>
+  <text x="1060" y="40" font-family="Arial, sans-serif" font-size="12" fill="#9CA3AF">Log Riwayat</text>
+
+  <!-- Hero Section -->
+  <rect x="490" y="100" width="220" height="24" rx="12" fill="#06B6D4" fill-opacity="0.1" stroke="#06B6D4" stroke-opacity="0.3" />
+  <text x="505" y="116" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#06B6D4">⚡ REAL-TIME ZERO-DAY PROTECTION</text>
+
+  <text x="600" y="155" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Cek Keamanan Link URL Secara Instant &amp; Akurat</text>
+  <text x="600" y="180" font-family="Arial, sans-serif" font-size="13" fill="#9CA3AF" text-anchor="middle">Sistem menyaring URL melalui Tabel Blacklist, diekstrak 20 Fitur Leksikal GA, dan diklasifikasikan oleh Random Forest (Akurasi 99.68%).</text>
+
+  <!-- Scanner Input Card -->
+  <rect x="200" y="210" width="800" height="130" rx="16" fill="url(#cardGrad)" stroke="#374151" stroke-width="1" />
+  
+  <!-- Input Field -->
+  <rect x="230" y="235" width="560" height="50" rx="10" fill="#0B0F17" stroke="#06B6D4" stroke-width="1.5" />
+  <text x="250" y="265" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF">youtube.com</text>
+  
+  <rect x="720" y="245" width="60" height="30" rx="6" fill="#1F2937" />
+  <text x="732" y="264" font-family="Arial, sans-serif" font-size="11" fill="#9CA3AF">📋 Tempel</text>
+
+  <!-- Submit Button -->
+  <rect x="800" y="235" width="170" height="50" rx="10" fill="url(#btnCyan)" />
+  <text x="840" y="265" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">🔍 Periksa Link</text>
+
+  <!-- Quick Test Samples -->
+  <text x="230" y="315" font-family="Arial, sans-serif" font-size="11" fill="#9CA3AF">Uji Coba Sampel:</text>
+  <rect x="330" y="302" width="130" height="22" rx="6" fill="#7F1D1D" fill-opacity="0.5" stroke="#991B1B" />
+  <text x="340" y="317" font-family="Arial, sans-serif" font-size="10" fill="#FCA5A5">🚨 Sample Blacklist Hit</text>
+
+  <rect x="470" y="302" width="150" height="22" rx="6" fill="#78350F" fill-opacity="0.5" stroke="#92400E" />
+  <text x="480" y="317" font-family="Arial, sans-serif" font-size="10" fill="#FCD34D">⚠️ Sample Zero-Day Phishing</text>
+
+  <rect x="630" y="302" width="170" height="22" rx="6" fill="#065F46" fill-opacity="0.5" stroke="#047857" />
+  <text x="640" y="317" font-family="Arial, sans-serif" font-size="10" fill="#6EE7B7">✅ Sample URL Aman (youtube.com)</text>
+
+  <!-- Scan Result Card -->
+  <rect x="200" y="360" width="800" height="380" rx="16" fill="url(#cardGrad)" stroke="#10B981" stroke-width="1.5" filter="url(#glowSafe)" />
+
+  <!-- Badge Status Aman -->
+  <rect x="230" y="390" width="220" height="28" rx="14" fill="url(#badgeSafe)" stroke="#10B981" stroke-opacity="0.4" />
+  <text x="245" y="408" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10B981">✓ LINK TERDETEKSI: AMAN / LEGITIMATE</text>
+
+  <rect x="460" y="390" width="180" height="28" rx="14" fill="#1F2937" stroke="#374151" />
+  <text x="475" y="408" font-family="Arial, sans-serif" font-size="11" fill="#D1D5DB">Metode: GA + Random Forest</text>
+
+  <!-- URL Title -->
+  <text x="230" y="450" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FFFFFF">youtube.com</text>
+  <text x="230" y="475" font-family="Arial, sans-serif" font-size="13" fill="#10B981">✓ Karakteristik leksikal URL konsisten dengan standar tautan sah/asli.</text>
+
+  <!-- Gauge Box Right -->
+  <rect x="780" y="390" width="190" height="100" rx="12" fill="#030712" stroke="#1F2937" />
+  <text x="875" y="415" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#9CA3AF" text-anchor="middle">SKOR TINGKAT KEAMANAN</text>
+  <text x="875" y="455" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#10B981" text-anchor="middle">100%</text>
+  <text x="875" y="475" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10B981" text-anchor="middle">Terverifikasi Aman</text>
+
+  <!-- Feature Matrix Toggle Line -->
+  <line x1="230" y1="510" x2="970" y2="510" stroke="#1F2937" stroke-width="1" />
+  <text x="230" y="535" font-family="Arial, sans-serif" font-size="12" fill="#9CA3AF">Real-time Feature Vector: 20 Fitur Terpilih GA</text>
+  <text x="850" y="535" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#06B6D4">⚙️ 20 Nilai Fitur Terpilih</text>
+
+  <!-- Feature Grid Matrix (20 Features) -->
+  <!-- Row 1 -->
+  <rect x="230" y="555" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="240" y="570" font-family="monospace" font-size="10" fill="#9CA3AF">URLLength</text>
+  <text x="240" y="583" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">18</text>
+
+  <rect x="415" y="555" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="425" y="570" font-family="monospace" font-size="10" fill="#9CA3AF">IsDomainIP</text>
+  <text x="425" y="583" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">0</text>
+
+  <rect x="600" y="555" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="610" y="570" font-family="monospace" font-size="10" fill="#9CA3AF">CharContinuationRate</text>
+  <text x="610" y="583" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">1.0</text>
+
+  <rect x="785" y="555" width="185" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="795" y="570" font-family="monospace" font-size="10" fill="#9CA3AF">IsHTTPS</text>
+  <text x="795" y="583" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">1</text>
+
+  <!-- Row 2 -->
+  <rect x="230" y="600" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="240" y="615" font-family="monospace" font-size="10" fill="#9CA3AF">HasCopyrightInfo</text>
+  <text x="240" y="628" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">1</text>
+
+  <rect x="415" y="600" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="425" y="615" font-family="monospace" font-size="10" fill="#9CA3AF">HasSubmitButton</text>
+  <text x="425" y="628" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">1</text>
+
+  <rect x="600" y="600" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="610" y="615" font-family="monospace" font-size="10" fill="#9CA3AF">NoOfDegitsInURL</text>
+  <text x="610" y="628" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">0</text>
+
+  <rect x="785" y="600" width="185" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="795" y="615" font-family="monospace" font-size="10" fill="#9CA3AF">ObfuscationRatio</text>
+  <text x="795" y="628" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">0.0</text>
+
+  <!-- Row 3 -->
+  <rect x="230" y="645" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="240" y="660" font-family="monospace" font-size="10" fill="#9CA3AF">HasTitle</text>
+  <text x="240" y="673" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">1</text>
+
+  <rect x="415" y="645" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="425" y="660" font-family="monospace" font-size="10" fill="#9CA3AF">IsResponsive</text>
+  <text x="425" y="673" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">1</text>
+
+  <rect x="600" y="645" width="170" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="610" y="660" font-family="monospace" font-size="10" fill="#9CA3AF">HasHiddenFields</text>
+  <text x="610" y="673" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">1</text>
+
+  <rect x="785" y="645" width="185" height="35" rx="6" fill="#030712" stroke="#1F2937" />
+  <text x="795" y="660" font-family="monospace" font-size="10" fill="#9CA3AF">Pay</text>
+  <text x="795" y="673" font-family="monospace" font-size="11" font-weight="bold" fill="#FFFFFF">0</text>
+
+  <!-- Footer -->
+  <text x="600" y="770" font-family="Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle">Projek Skripsi Teknik Informatika - Hafiz Alfarisyi (NIM: 221420112) | Fitur Deteksi URL Scanner</text>
+</svg>
