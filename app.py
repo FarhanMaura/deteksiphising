@@ -6,7 +6,7 @@ import joblib
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 
-from extractor import extract_features
+from extractor import extract_features, LEXICAL_FEATURE_INFO, get_feature_assessment
 from database import (
     init_db, check_blacklist, add_to_blacklist, record_history,
     get_history, get_blacklists, delete_blacklist_entry, delete_history_entry,
@@ -16,7 +16,7 @@ from database import (
 app = Flask(__name__, template_folder="templates", static_folder="static")
 CORS(app)
 
-# Inisialisasi Database
+# Inisialisasi Database MySQL
 init_db()
 
 # Load Model ML dan Fitur Terpilih
@@ -30,15 +30,23 @@ try:
     if os.path.exists(MODEL_PATH) and os.path.exists(FEATURES_PATH):
         rf_model = joblib.load(MODEL_PATH)
         selected_features = joblib.load(FEATURES_PATH)
-        print(f"Model Random Forest & {len(selected_features)} fitur terpilih GA berhasil dimuat!")
+        print(f"[INFO] Model Random Forest & {len(selected_features)} fitur terpilih GA berhasil dimuat!")
     else:
-        print("PERINGATAN: File model atau fitur_terpilih tidak ditemukan!")
+        print("[PERINGATAN] File model atau fitur_terpilih tidak ditemukan!")
 except Exception as e:
-    print("Error saat memuat model:", e)
+    print("[ERROR] Error saat memuat model:", e)
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/api/lexical-info", methods=["GET"])
+def get_lexical_info():
+    """Mengembalikan kamus dan metadata lengkap 20 fitur leksikal GA"""
+    return jsonify({
+        "features": LEXICAL_FEATURE_INFO,
+        "total": len(LEXICAL_FEATURE_INFO)
+    })
 
 @app.route("/api/scan", methods=["POST"])
 def scan_url():
@@ -54,7 +62,10 @@ def scan_url():
         url_input = "https://" + raw_url
     else:
         url_input = raw_url
-        
+
+    # Ekstraksi 20 Fitur Leksikal Genetic Algorithm
+    X_arr, feature_dict = extract_features(url_input)
+    
     # ----------------------------------------------------
     # LAPISAN 1: Pengecekan Basis Data Lokal (Blacklist)
     # ----------------------------------------------------
@@ -66,7 +77,7 @@ def scan_url():
             status="Phishing",
             probability=100.0,
             source_detection="Blacklist Hit",
-            features_json=json.dumps({"info": "URL terdaftar di blacklist lokal"})
+            features_json=json.dumps(feature_dict)
         )
         return jsonify({
             "status": "Phishing",
@@ -75,17 +86,15 @@ def scan_url():
             "source_detection": "Blacklist Hit",
             "zero_day": False,
             "blacklist_info": blacklist_match,
-            "features": {}
+            "features": feature_dict
         })
         
     # ----------------------------------------------------
-    # LAPISAN 2: Ekstraksi Fitur Leksikal (20 Fitur GA) + RF
+    # LAPISAN 2: Klasifikasi Model Random Forest (RF)
     # ----------------------------------------------------
     if rf_model is None:
         return jsonify({"status": "error", "message": "Model Machine Learning belum siap!"}), 500
         
-    X_arr, feature_dict = extract_features(url_input)
-    
     # Prediksi Random Forest
     pred_class = rf_model.predict(X_arr)[0]
     probabilities = rf_model.predict_proba(X_arr)[0]
@@ -137,6 +146,14 @@ def get_stats():
 @app.route("/api/riwayat", methods=["GET"])
 def fetch_history():
     logs = get_history(limit=100)
+    for log in logs:
+        if "features_json" in log and log["features_json"]:
+            try:
+                log["features"] = json.loads(log["features_json"])
+            except Exception:
+                log["features"] = {}
+        else:
+            log["features"] = {}
     return jsonify(logs)
 
 @app.route("/api/riwayat/<int:entry_id>", methods=["DELETE"])

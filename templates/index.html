@@ -20,13 +20,13 @@
             theme: {
                 extend: {
                     colors: {
-                        darkbg: '#0B0F17',
-                        cardbg: 'rgba(17, 24, 39, 0.8)',
-                        cardborder: 'rgba(255, 255, 255, 0.08)',
-                        brandcyan: '#06B6D4',
-                        brandblue: '#3B82F6',
-                        brandphish: '#EF4444',
-                        brandsafe: '#10B981'
+                        lightbg: '#F8FAFC',
+                        cardbg: '#FFFFFF',
+                        cardborder: '#E2E8F0',
+                        brandcyan: '#0891B2',
+                        brandblue: '#2563EB',
+                        brandphish: '#DC2626',
+                        brandsafe: '#059669'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -39,36 +39,38 @@
     
     <style>
         body {
-            background-color: #0B0F17;
+            background-color: #F8FAFC;
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
-            color: #E5E7EB;
+                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.10) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.10) 0%, transparent 45%);
+            color: #1E293B;
         }
         .glass-card {
-            background: rgba(17, 24, 39, 0.75);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.02);
         }
         .glass-input {
-            background: rgba(11, 15, 23, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #FFFFFF;
+            border: 1px solid #CBD5E1;
+            color: #0F172A;
         }
         .glass-input:focus {
-            border-color: #06B6D4;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+            border-color: #0891B2;
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.18);
         }
         .glow-phish {
-            box-shadow: 0 0 35px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.18);
         }
         .glow-safe {
-            box-shadow: 0 0 35px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 30px rgba(5, 150, 105, 0.18);
         }
         .nav-tab.active {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
-            border-color: #06B6D4;
-            color: #FFFFFF;
+            background: linear-gradient(135deg, rgba(8, 145, 178, 0.10), rgba(37, 99, 235, 0.10));
+            border-color: #0891B2;
+            color: #0284C7;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -76,33 +78,36 @@
 
     <div id="app" class="flex-1 flex flex-col">
         <!-- HEADER / NAVIGATION -->
-        <header class="border-b border-gray-800 bg-gray-900/60 backdrop-blur-md sticky top-0 z-50">
+        <header class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-20">
                     <!-- BRAND LOGO -->
                     <div class="flex items-center gap-3">
-                        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-600/20">
                             <i class="fa-solid fa-shield-halved text-2xl text-white"></i>
                         </div>
                         <div>
-                            <span class="font-heading text-2xl font-extrabold tracking-wide text-white">Phish<span class="text-cyan-400">Guard</span></span>
-                            <span class="block text-xs font-medium text-gray-400">Hybrid GA + Random Forest Detection System</span>
+                            <span class="font-heading text-2xl font-extrabold tracking-wide text-slate-900">Phish<span class="text-cyan-600">Guard</span></span>
+                            <span class="block text-xs font-medium text-slate-500">Hybrid GA + Random Forest (MySQL Edition)</span>
                         </div>
                     </div>
 
                     <!-- TABS NAVIGATION -->
-                    <nav class="hidden md:flex space-x-2 bg-gray-950/80 p-1.5 rounded-xl border border-gray-800">
-                        <button @click="activeTab = 'scanner'" :class="{'active': activeTab === 'scanner'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
+                    <nav class="hidden md:flex space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                        <button @click="activeTab = 'scanner'" :class="{'active': activeTab === 'scanner'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition duration-200 flex items-center gap-2">
                             <i class="fa-solid fa-radar"></i> URL Scanner
                         </button>
-                        <button @click="activeTab = 'dashboard'" :class="{'active': activeTab === 'dashboard'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
+                        <button @click="activeTab = 'dictionary'" :class="{'active': activeTab === 'dictionary'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-book-open"></i> Kamus 20 Fitur GA
+                        </button>
+                        <button @click="activeTab = 'dashboard'" :class="{'active': activeTab === 'dashboard'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition duration-200 flex items-center gap-2">
                             <i class="fa-solid fa-chart-pie"></i> Dashboard
                         </button>
-                        <button @click="activeTab = 'blacklist'" :class="{'active': activeTab === 'blacklist'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
-                            <i class="fa-solid fa-ban"></i> Blacklist <span class="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded-full border border-red-500/30">[[ stats.blacklist_count || 0 ]]</span>
+                        <button @click="activeTab = 'blacklist'" :class="{'active': activeTab === 'blacklist'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-ban"></i> Blacklist <span class="bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded-full border border-red-200 font-bold">[[ stats.blacklist_count || 0 ]]</span>
                         </button>
-                        <button @click="activeTab = 'history'" :class="{'active': activeTab === 'history'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition duration-200 flex items-center gap-2">
-                            <i class="fa-solid fa-clock-history"></i> Log Riwayat
+                        <button @click="activeTab = 'history'" :class="{'active': activeTab === 'history'}" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Log Riwayat
                         </button>
                     </nav>
                 </div>
@@ -115,15 +120,15 @@
             <!-- ================= TAB 1: URL SCANNER ================= -->
             <section v-if="activeTab === 'scanner'" class="space-y-8">
                 <!-- HERO SECTION -->
-                <div class="text-center max-w-3xl mx-auto space-y-4 pt-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
-                        <i class="fa-solid fa-bolt"></i> Real-time Zero-Day Protection
+                <div class="text-center max-w-3xl mx-auto space-y-4 pt-2">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-100 border border-cyan-300 text-cyan-800 text-xs font-semibold uppercase tracking-wider shadow-sm">
+                        <i class="fa-solid fa-bolt text-cyan-600"></i> Real-time Zero-Day Protection (MySQL Connected)
                     </div>
-                    <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                    <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
                         Cek Keamanan Link URL Secara Instant & Akurat
                     </h1>
-                    <p class="text-gray-400 text-base">
-                        Sistem menyaring URL melalui <span class="text-cyan-400 font-semibold">Tabel Blacklist</span>, diekstrak <span class="text-blue-400 font-semibold">20 Fitur Leksikal GA</span>, dan diklasifikasikan oleh model <span class="text-purple-400 font-semibold">Random Forest (Akurasi 99.68%)</span>.
+                    <p class="text-slate-600 text-base">
+                        Sistem menyaring URL melalui <span class="text-cyan-700 font-semibold">Tabel Blacklist MySQL</span>, mengekstraksi <span class="text-blue-700 font-semibold">20 Fitur Leksikal GA</span>, dan diklasifikasikan oleh model <span class="text-purple-700 font-semibold">Random Forest (Akurasi 99.68%)</span>.
                     </p>
                 </div>
 
@@ -132,15 +137,15 @@
                     <form @submit.prevent="runScan" class="space-y-4">
                         <div class="flex flex-col sm:flex-row gap-3">
                             <div class="relative flex-1">
-                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                                     <i class="fa-solid fa-link text-lg"></i>
                                 </div>
-                                <input v-model="scanUrlInput" type="text" placeholder="Masukkan URL tautan yang dicurigai (misal: youtube.com atau http://contoh-phishing.com/login)" class="glass-input w-full pl-11 pr-24 py-4 rounded-xl text-white placeholder-gray-500 text-sm focus:outline-none transition duration-200">
-                                <button type="button" @click="pasteFromClipboard" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-gray-300 transition">
+                                <input v-model="scanUrlInput" type="text" placeholder="Masukkan URL tautan yang dicurigai (misal: youtube.com atau http://contoh-phishing.com/login)" class="glass-input w-full pl-11 pr-24 py-4 rounded-xl text-slate-900 placeholder-slate-400 text-sm focus:outline-none transition duration-200">
+                                <button type="button" @click="pasteFromClipboard" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-xs font-medium text-slate-700 transition">
                                     <i class="fa-regular fa-clipboard"></i> Tempel
                                 </button>
                             </div>
-                            <button type="submit" :disabled="isScanning" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-cyan-500/25 transition duration-200 flex items-center justify-center gap-3 disabled:opacity-50">
+                            <button type="submit" :disabled="isScanning" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-cyan-600/20 transition duration-200 flex items-center justify-center gap-3 disabled:opacity-50">
                                 <i v-if="isScanning" class="fa-solid fa-circle-notch fa-spin text-lg"></i>
                                 <i v-else class="fa-solid fa-magnifying-glass text-lg"></i>
                                 <span>[[ isScanning ? 'Menganalisis...' : 'Periksa Link' ]]</span>
@@ -149,16 +154,16 @@
                     </form>
 
                     <!-- SAMPLE QUICK TEST BUTTONS -->
-                    <div class="mt-4 pt-4 border-t border-gray-800/80 flex flex-wrap items-center gap-2 text-xs">
-                        <span class="text-gray-400 font-medium">Uji Coba Sampel:</span>
-                        <button @click="fillSample('http://phishing-bank-fake-login.com')" class="px-2.5 py-1 rounded-md bg-red-950/60 border border-red-800/50 text-red-300 hover:bg-red-900/80 transition">
-                            🚨 Sample Blacklist Hit
+                    <div class="mt-4 pt-4 border-t border-slate-200 flex flex-wrap items-center gap-2 text-xs">
+                        <span class="text-slate-500 font-medium">Uji Coba Sampel:</span>
+                        <button @click="fillSample('http://phishing-bank-fake-login.com')" class="px-2.5 py-1 rounded-md bg-red-50 border border-red-200 text-red-700 hover:bg-red-100 transition font-medium">
+                            🚨 Blacklist Hit
                         </button>
-                        <button @click="fillSample('http://secure-bank-login-update-account-verification.com/index.html?ref=123%20obf')" class="px-2.5 py-1 rounded-md bg-amber-950/60 border border-amber-800/50 text-amber-300 hover:bg-amber-900/80 transition">
-                            ⚠️ Sample Zero-Day Phishing
+                        <button @click="fillSample('http://secure-bank-login-update-account-verification.com/index.html?ref=123%20obf')" class="px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 transition font-medium">
+                            ⚠️ Zero-Day Phishing (Positif)
                         </button>
-                        <button @click="fillSample('youtube.com')" class="px-2.5 py-1 rounded-md bg-emerald-950/60 border border-emerald-800/50 text-emerald-300 hover:bg-emerald-900/80 transition">
-                            ✅ Sample URL Aman (youtube.com)
+                        <button @click="fillSample('youtube.com')" class="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 transition font-medium">
+                            ✅ URL Sah / Aman (Negatif)
                         </button>
                     </div>
                 </div>
@@ -166,105 +171,314 @@
                 <!-- SCANNING PROGRESS INDICATOR -->
                 <div v-if="isScanning" class="glass-card rounded-2xl p-6 max-w-4xl mx-auto space-y-4 animate-pulse">
                     <div class="flex items-center justify-between text-sm font-medium">
-                        <span class="text-cyan-400 flex items-center gap-2">
+                        <span class="text-cyan-700 flex items-center gap-2">
                             <i class="fa-solid fa-microchip fa-spin"></i> [[ scanStepText ]]
                         </span>
-                        <span class="text-gray-400">Tahap [[ scanStep ]]/4</span>
+                        <span class="text-slate-500">Tahap [[ scanStep ]]/4</span>
                     </div>
-                    <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
-                        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full transition-all duration-300" :style="{ width: (scanStep * 25) + '%' }"></div>
+                    <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                        <div class="bg-gradient-to-r from-cyan-600 to-blue-600 h-full transition-all duration-300" :style="{ width: (scanStep * 25) + '%' }"></div>
                     </div>
                 </div>
 
                 <!-- RESULT CARD SECTION -->
                 <div v-if="scanResult && !isScanning" class="max-w-4xl mx-auto space-y-6">
-                    <div class="glass-card rounded-2xl p-6 sm:p-8 transition-all duration-300" :class="scanResult.is_phishing ? 'border-red-500/50 glow-phish' : 'border-emerald-500/50 glow-safe'">
+                    <div class="glass-card rounded-2xl p-6 sm:p-8 transition-all duration-300" :class="scanResult.is_phishing ? 'border-red-300 glow-phish' : 'border-emerald-300 glow-safe'">
                         
                         <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                             <!-- RESULT BADGE & TEXT -->
                             <div class="space-y-3 text-center md:text-left flex-1">
                                 <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                                    <span v-if="scanResult.is_phishing" class="px-3.5 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                                        <i class="fa-solid fa-triangle-exclamation"></i> Link Terdeteksi: Phishing / Tidak Aman
+                                    <span v-if="scanResult.is_phishing" class="px-3.5 py-1 rounded-full bg-red-100 border border-red-300 text-red-700 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                        <i class="fa-solid fa-triangle-exclamation"></i> Link Terdeteksi: Phishing / Berbahaya
                                     </span>
-                                    <span v-else class="px-3.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                    <span v-else class="px-3.5 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-700 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
                                         <i class="fa-solid fa-circle-check"></i> Link Terdeteksi: Aman / Legitimate
                                     </span>
 
-                                    <span class="px-3 py-1 rounded-full bg-gray-800 border border-gray-700 text-gray-300 text-xs font-medium">
+                                    <span class="px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium">
                                         Metode: [[ scanResult.source_detection ]]
                                     </span>
                                 </div>
 
-                                <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-white break-all">
+                                <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 break-all">
                                     [[ scanUrlInput ]]
                                 </h2>
 
-                                <p class="text-sm text-gray-300">
-                                    <span v-if="scanResult.is_phishing" class="text-red-400 font-medium">
-                                        ⚠️ Tautan ini sangat berbahaya! Jangan memasukkan kata sandi, kode OTP, atau informasi keuangan pribadi pada halaman ini.
+                                <p class="text-sm text-slate-700">
+                                    <span v-if="scanResult.is_phishing" class="text-red-600 font-semibold">
+                                        ⚠️ Tautan ini sangat berbahaya! Pola leksikal URL menunjukkan indikasi kuat pencurian data / phishing. Jangan memasukkan kredensial pribadi.
                                     </span>
-                                    <span v-else class="text-emerald-400 font-medium">
-                                        ✓ Karakteristik leksikal URL konsisten dengan standar tautan sah/asli.
+                                    <span v-else class="text-emerald-700 font-semibold">
+                                        ✓ Karakteristik 20 fitur leksikal konsisten dengan standar link sah/resmi dan bebas anomali phishing.
                                     </span>
                                 </p>
                             </div>
 
                             <!-- RISK SCORE / SAFETY GAUGE BOX -->
-                            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-950/60 border border-gray-800 min-w-[190px]">
-                                <span class="text-[11px] text-gray-400 uppercase font-semibold mb-1">
+                            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 border border-slate-200 min-w-[190px]">
+                                <span class="text-[11px] text-slate-500 uppercase font-semibold mb-1">
                                     [[ scanResult.is_phishing ? 'Skor Risiko Phishing' : 'Skor Tingkat Keamanan' ]]
                                 </span>
-                                <div class="text-3xl font-heading font-black" :class="scanResult.is_phishing ? 'text-red-400' : 'text-emerald-400'">
+                                <div class="text-3xl font-heading font-black" :class="scanResult.is_phishing ? 'text-red-600' : 'text-emerald-600'">
                                     [[ scanResult.probability ]]%
                                 </div>
-                                <span class="text-[11px] font-semibold mt-1" :class="scanResult.is_phishing ? 'text-red-400' : 'text-emerald-400'">
+                                <span class="text-[11px] font-bold mt-1" :class="scanResult.is_phishing ? 'text-red-600' : 'text-emerald-600'">
                                     [[ scanResult.is_phishing ? 'Terdeteksi Phishing' : 'Terverifikasi Aman' ]]
                                 </span>
                             </div>
                         </div>
 
                         <!-- ZERO-DAY DEFENSE NOTIFICATION -->
-                        <div v-if="scanResult.zero_day" class="mt-6 p-4 rounded-xl bg-red-950/40 border border-red-800/60 flex items-start gap-3">
-                            <i class="fa-solid fa-shield-virus text-red-400 text-xl mt-0.5"></i>
+                        <div v-if="scanResult.zero_day" class="mt-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
+                            <i class="fa-solid fa-shield-virus text-red-600 text-xl mt-0.5"></i>
                             <div>
-                                <h4 class="text-sm font-bold text-red-300">🛡️ Proteksi Zero-Day Security Aktif!</h4>
-                                <p class="text-xs text-gray-300 mt-0.5">
-                                    Tautan ini belum pernah terdaftar di blacklist lokal sebelumnya. Karena Random Forest mengidentifikasinya sebagai ancaman Phishing, sistem secara otomatis mengekspor & menyimpan URL ini ke <span class="text-red-400 font-mono">tbl_blacklist</span> agar pengecekan berikutnya berjalan instan.
+                                <h4 class="text-sm font-bold text-red-800">🛡️ Proteksi Zero-Day Security Aktif!</h4>
+                                <p class="text-xs text-slate-700 mt-0.5">
+                                    Tautan ini belum pernah ada di blacklist MySQL sebelumnya. Karena Random Forest mendeteksi pola Phishing, sistem otomatis menyimpan URL ini ke tabel <span class="text-red-700 font-mono font-semibold">tbl_blacklist</span> MySQL untuk proteksi instan di kemudian hari.
                                 </p>
                             </div>
                         </div>
 
-                        <!-- TOGGLE FEATURE BREAKDOWN -->
-                        <div class="mt-6 pt-6 border-t border-gray-800 flex items-center justify-between">
-                            <span class="text-xs text-gray-400 font-medium">
-                                Real-time Feature Vector: 20 Fitur GA
-                            </span>
-                            <button @click="showFeatureModal = !showFeatureModal" class="text-xs text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1">
-                                <i class="fa-solid fa-sliders"></i> [[ showFeatureModal ? 'Sembunyikan Nilai Fitur' : 'Lihat 20 Nilai Fitur Terpilih' ]]
-                            </button>
-                        </div>
-
-                        <!-- FEATURE BREAKDOWN GRID -->
-                        <div v-if="showFeatureModal" class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-2">
-                            <div v-for="(val, key) in scanResult.features" :key="key" class="p-2.5 rounded-lg bg-gray-950/80 border border-gray-800/80 flex flex-col justify-between">
-                                <span class="text-gray-400 font-mono text-[11px] truncate">[[ key ]]</span>
-                                <span class="font-bold text-white mt-1 font-mono text-sm">[[ val ]]</span>
+                        <!-- ================= 20 FITUR LEKSIKAL RESULT BREAKDOWN (SELALU DAPAT DILIHAT) ================= -->
+                        <div class="mt-6 pt-6 border-t border-slate-200 space-y-4">
+                            <!-- HEADER & CONTROLS -->
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="font-heading font-bold text-slate-900 text-base">
+                                            🔍 Analisis Vektor 20 Fitur Leksikal Genetic Algorithm
+                                        </h3>
+                                        <span class="px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-800 text-[11px] font-bold">20 Fitur</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-0.5">
+                                        Hasil ekstraksi leksikal yang dievaluasi oleh pohon keputusan Random Forest. Klik pada kartu fitur untuk penjelasan mendalam.
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button @click="showFeatureModal = !showFeatureModal" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-semibold text-slate-700 flex items-center gap-1.5 transition">
+                                        <i class="fa-solid" :class="showFeatureModal ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                        [[ showFeatureModal ? 'Sembunyikan Nilai' : 'Tampilkan 20 Nilai Fitur' ]]
+                                    </button>
+                                </div>
                             </div>
+
+                            <!-- FILTER TABS & SUMMARY BADGES -->
+                            <div v-if="showFeatureModal && scanResult.features && Object.keys(scanResult.features).length > 0" class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                                <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs">
+                                    <button @click="featureFilter = 'all'" :class="{'bg-white shadow-sm font-bold text-cyan-800': featureFilter === 'all', 'text-slate-600': featureFilter !== 'all'}" class="px-3 py-1 rounded-md transition">
+                                        Semua (20)
+                                    </button>
+                                    <button @click="featureFilter = 'risk'" :class="{'bg-red-500 text-white font-bold': featureFilter === 'risk', 'text-slate-600': featureFilter !== 'risk'}" class="px-3 py-1 rounded-md transition flex items-center gap-1">
+                                        <i class="fa-solid fa-triangle-exclamation"></i> Anomali / Berisiko ([[ getFeatureCount('risk') ]])
+                                    </button>
+                                    <button @click="featureFilter = 'safe'" :class="{'bg-emerald-600 text-white font-bold': featureFilter === 'safe', 'text-slate-600': featureFilter !== 'safe'}" class="px-3 py-1 rounded-md transition flex items-center gap-1">
+                                        <i class="fa-solid fa-circle-check"></i> Normal / Aman ([[ getFeatureCount('safe') ]])
+                                    </button>
+                                </div>
+
+                                <span class="text-xs text-slate-500">
+                                    Status Evaluasi: 
+                                    <strong class="text-emerald-700">[[ getFeatureCount('safe') ]] Normal</strong> | 
+                                    <strong class="text-red-600">[[ getFeatureCount('risk') ]] Berisiko</strong>
+                                </span>
+                            </div>
+
+                            <!-- 20 FITUR GRID CARDS -->
+                            <div v-if="showFeatureModal && scanResult.features && Object.keys(scanResult.features).length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
+                                <div 
+                                    v-for="(val, key) in filteredFeatures" 
+                                    :key="key" 
+                                    @click="openFeatureDetailModal(key, val)"
+                                    class="p-3 rounded-xl bg-white border border-slate-200 hover:border-cyan-400 hover:shadow-md transition cursor-pointer flex flex-col justify-between space-y-2 group"
+                                >
+                                    <div>
+                                        <div class="flex items-center justify-between gap-1">
+                                            <span class="text-[11px] font-mono font-bold text-slate-800 truncate" :title="key">[[ key ]]</span>
+                                            <span 
+                                                class="px-1.5 py-0.5 rounded text-[10px] font-bold border"
+                                                :class="getFeatureAssessment(key, val).status === 'risk' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'"
+                                            >
+                                                [[ getFeatureAssessment(key, val).label ]]
+                                            </span>
+                                        </div>
+                                        <div class="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                                            [[ getFeatureName(key) ]]
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                                        <span class="text-[11px] text-slate-400">Nilai Fitur:</span>
+                                        <span class="font-mono font-extrabold text-sm text-slate-900 bg-slate-100 px-2 py-0.5 rounded">
+                                            [[ val ]]
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
                 </div>
+
+                <!-- ================= EDUKASI: KAMUS 20 FITUR LEKSIKAL PADA LANDING PAGE ================= -->
+                <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-5xl mx-auto space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-blue-100 border border-blue-200 text-blue-800 text-xs font-bold uppercase tracking-wider">
+                                📖 Ensiklopedia Fitur Leksikal
+                            </div>
+                            <h2 class="text-xl sm:text-2xl font-heading font-extrabold text-slate-900 mt-1">
+                                Penjelasan 20 Fitur Leksikal Genetic Algorithm
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-600">
+                                Fitur-fitur ini diekstraksi murni dari susunan karakter URL tanpa crawling jaringan, menjaga kecepatan scan di bawah 0.1 detik.
+                            </p>
+                        </div>
+
+                        <!-- SEARCH & CATEGORY FILTER -->
+                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                            <div class="relative w-full sm:w-64">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <input v-model="dictSearch" type="text" placeholder="Cari nama fitur..." class="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-cyan-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CATEGORY PILLS -->
+                    <div class="flex flex-wrap items-center gap-2 text-xs">
+                        <span class="text-slate-400 font-semibold">Filter Kategori:</span>
+                        <button 
+                            v-for="cat in dictionaryCategories" 
+                            :key="cat"
+                            @click="selectedDictCategory = cat"
+                            :class="selectedDictCategory === cat ? 'bg-cyan-700 text-white font-bold shadow-sm' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
+                            class="px-3 py-1 rounded-lg border border-slate-200 transition"
+                        >
+                            [[ cat ]]
+                        </button>
+                    </div>
+
+                    <!-- 20 FEATURES DICTIONARY CARDS -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div 
+                            v-for="(item, key) in filteredDictionary" 
+                            :key="key"
+                            class="p-4 rounded-xl bg-white border border-slate-200 hover:border-cyan-300 hover:shadow-md transition space-y-3"
+                        >
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                                        [[ item.category ]]
+                                    </span>
+                                    <h4 class="font-heading font-extrabold text-slate-900 text-sm mt-1">
+                                        [[ item.name ]] <span class="font-mono text-cyan-700 font-bold text-xs">([[ key ]])</span>
+                                    </h4>
+                                </div>
+                                <div class="w-8 h-8 rounded-lg bg-cyan-50 text-cyan-700 flex items-center justify-center font-bold text-xs">
+                                    #[[ getFeatureIndex(key) ]]
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                [[ item.description ]]
+                            </p>
+
+                            <div class="pt-2 border-t border-slate-100 grid grid-cols-2 gap-2 text-[11px]">
+                                <div class="p-2 rounded-lg bg-emerald-50/70 border border-emerald-200 text-emerald-800">
+                                    <span class="font-bold block mb-0.5">✅ Standar Aman:</span>
+                                    <span>[[ item.safe_criteria ]]</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-red-50/70 border border-red-200 text-red-800">
+                                    <span class="font-bold block mb-0.5">⚠️ Indikasi Phishing:</span>
+                                    <span>[[ item.risk_criteria ]]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
-            <!-- ================= TAB 2: DASHBOARD ANALYTICS ================= -->
+            <!-- ================= TAB 2: KAMUS 20 FITUR GA (DEDICATED FULL VIEW) ================= -->
+            <section v-if="activeTab === 'dictionary'" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-heading font-extrabold text-slate-900">Kamus Lengkap 20 Fitur Leksikal Genetic Algorithm</h2>
+                        <p class="text-sm text-slate-500">Referensi ilmiah parameter ekstraksi fitur leksikal pada dataset PhiUSIIL dan model Random Forest.</p>
+                    </div>
+                    <div class="relative w-full sm:w-72">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input v-model="dictSearch" type="text" placeholder="Cari nama atau deskripsi fitur..." class="w-full pl-8 pr-3 py-2.5 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-cyan-500">
+                    </div>
+                </div>
+
+                <!-- CATEGORY FILTER -->
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <button 
+                        v-for="cat in dictionaryCategories" 
+                        :key="cat"
+                        @click="selectedDictCategory = cat"
+                        :class="selectedDictCategory === cat ? 'bg-cyan-700 text-white font-bold shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'"
+                        class="px-3.5 py-1.5 rounded-xl transition"
+                    >
+                        [[ cat ]]
+                    </button>
+                </div>
+
+                <!-- CARDS GRID -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div 
+                        v-for="(item, key) in filteredDictionary" 
+                        :key="key"
+                        class="glass-card p-5 rounded-2xl space-y-4 hover:border-cyan-400 hover:shadow-lg transition flex flex-col justify-between"
+                    >
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-100 text-cyan-800 border border-cyan-200">
+                                    [[ item.category ]]
+                                </span>
+                                <span class="font-mono text-slate-400 font-bold text-xs">Fitur #[[ getFeatureIndex(key) ]]</span>
+                            </div>
+
+                            <h3 class="font-heading font-extrabold text-slate-900 text-lg">
+                                [[ item.name ]]
+                            </h3>
+                            <div class="font-mono text-xs font-semibold text-cyan-700 bg-cyan-50 px-2.5 py-1 rounded-lg inline-block">
+                                ID: [[ key ]]
+                            </div>
+
+                            <p class="text-xs text-slate-600 leading-relaxed pt-1">
+                                [[ item.description ]]
+                            </p>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-100 space-y-2 text-xs">
+                            <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900">
+                                <div class="font-bold flex items-center gap-1.5 text-[11px]">
+                                    <i class="fa-solid fa-circle-check text-emerald-600"></i> Kriteria Normal / Sah:
+                                </div>
+                                <div class="text-[11px] mt-0.5">[[ item.safe_criteria ]]</div>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-900">
+                                <div class="font-bold flex items-center gap-1.5 text-[11px]">
+                                    <i class="fa-solid fa-triangle-exclamation text-red-600"></i> Indikasi Risiko Phishing:
+                                </div>
+                                <div class="text-[11px] mt-0.5">[[ item.risk_criteria ]]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 3: DASHBOARD ANALYTICS (MYSQL) ================= -->
             <section v-if="activeTab === 'dashboard'" class="space-y-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-2xl font-heading font-extrabold text-white">Dashboard Monitoring Sistem</h2>
-                        <p class="text-sm text-gray-400">Ringkasan aktivitas deteksi dan pertahanan keamanan sistem.</p>
+                        <h2 class="text-2xl font-heading font-extrabold text-slate-900">Dashboard Monitoring Sistem (MySQL)</h2>
+                        <p class="text-sm text-slate-500">Ringkasan aktivitas deteksi dan pertahanan keamanan sistem yang tersimpan di MySQL.</p>
                     </div>
-                    <button @click="fetchStats" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-gray-300 flex items-center gap-1.5">
+                    <button @click="fetchStats" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-xs font-medium text-slate-700 shadow-sm flex items-center gap-1.5">
                         <i class="fa-solid fa-rotate-right"></i> Refresh Stats
                     </button>
                 </div>
@@ -272,55 +486,55 @@
                 <!-- STATS CARDS GRID -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     <div class="glass-card p-6 rounded-2xl space-y-2">
-                        <div class="flex items-center justify-between text-cyan-400">
-                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Total Scan URL</span>
+                        <div class="flex items-center justify-between text-cyan-600">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Scan URL</span>
                             <i class="fa-solid fa-globe text-xl"></i>
                         </div>
-                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.total_scans || 0 ]]</div>
-                        <p class="text-xs text-gray-500">Seluruh transaksi pemindaian</p>
+                        <div class="text-3xl font-heading font-extrabold text-slate-900">[[ stats.total_scans || 0 ]]</div>
+                        <p class="text-xs text-slate-500">Seluruh transaksi pemindaian</p>
                     </div>
 
                     <div class="glass-card p-6 rounded-2xl space-y-2 border-l-4 border-l-red-500">
-                        <div class="flex items-center justify-between text-red-400">
-                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Phishing Terdeteksi</span>
+                        <div class="flex items-center justify-between text-red-600">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Phishing Terdeteksi</span>
                             <i class="fa-solid fa-triangle-exclamation text-xl"></i>
                         </div>
-                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.phishing_count || 0 ]]</div>
-                        <p class="text-xs text-gray-500">Ancaman berhasil dicegat</p>
+                        <div class="text-3xl font-heading font-extrabold text-slate-900">[[ stats.phishing_count || 0 ]]</div>
+                        <p class="text-xs text-slate-500">Ancaman berhasil dicegat</p>
                     </div>
 
                     <div class="glass-card p-6 rounded-2xl space-y-2 border-l-4 border-l-emerald-500">
-                        <div class="flex items-center justify-between text-emerald-400">
-                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">URL Aman (Legitimate)</span>
+                        <div class="flex items-center justify-between text-emerald-600">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">URL Aman (Legitimate)</span>
                             <i class="fa-solid fa-circle-check text-xl"></i>
                         </div>
-                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.legitimate_count || 0 ]]</div>
-                        <p class="text-xs text-gray-500">Tautan diverifikasi sah</p>
+                        <div class="text-3xl font-heading font-extrabold text-slate-900">[[ stats.legitimate_count || 0 ]]</div>
+                        <p class="text-xs text-slate-500">Tautan diverifikasi sah</p>
                     </div>
 
                     <div class="glass-card p-6 rounded-2xl space-y-2 border-l-4 border-l-purple-500">
-                        <div class="flex items-center justify-between text-purple-400">
-                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Zero-Day Blacklisted</span>
+                        <div class="flex items-center justify-between text-purple-600">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Zero-Day Blacklisted</span>
                             <i class="fa-solid fa-shield-virus text-xl"></i>
                         </div>
-                        <div class="text-3xl font-heading font-extrabold text-white">[[ stats.zero_day_count || 0 ]]</div>
-                        <p class="text-xs text-gray-500">URL Phishing baru di-auto-blacklist</p>
+                        <div class="text-3xl font-heading font-extrabold text-slate-900">[[ stats.zero_day_count || 0 ]]</div>
+                        <p class="text-xs text-slate-500">URL Phishing baru di-auto-blacklist</p>
                     </div>
                 </div>
 
                 <!-- DEMO DOSEN: AUTO-LEARNING ENGINE CONTROL -->
-                <div class="glass-card p-6 sm:p-8 rounded-2xl space-y-4 border border-cyan-500/30">
+                <div class="glass-card p-6 sm:p-8 rounded-2xl space-y-4 border border-cyan-200">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <span class="px-2.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+                            <span class="px-2.5 py-0.5 rounded-md bg-cyan-100 border border-cyan-200 text-cyan-800 text-xs font-bold uppercase tracking-wider">
                                 🤖 Fitur Simulasi Pembelajaran Mandiri (Auto-Learning Idle Engine)
                             </span>
-                            <h3 class="text-lg font-bold text-white mt-1">Simulasi Generasi & Analisis Sintetis Link Phishing Zero-Day</h3>
-                            <p class="text-xs text-gray-400">
+                            <h3 class="text-lg font-bold text-slate-900 mt-1">Simulasi Generasi & Analisis Sintetis Link Phishing Zero-Day</h3>
+                            <p class="text-xs text-slate-600">
                                 Fitur ini mensimulasikan sistem saat tidak digunakan (idle), di mana model GA+RF secara otomatis mempelajari variasi sintesis URL phishing baru tanpa melakukan crawling jaringan.
                             </p>
                         </div>
-                        <button @click="triggerAutoLearning" :disabled="isAutoLearning" class="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition disabled:opacity-50 whitespace-nowrap">
+                        <button @click="triggerAutoLearning" :disabled="isAutoLearning" class="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-600/20 transition disabled:opacity-50 whitespace-nowrap">
                             <i v-if="isAutoLearning" class="fa-solid fa-circle-notch fa-spin text-sm"></i>
                             <i v-else class="fa-solid fa-wand-magic-sparkles text-sm"></i>
                             <span>[[ isAutoLearning ? 'Mempelajari Pola...' : 'Jalankan Auto-Learning' ]]</span>
@@ -328,30 +542,30 @@
                     </div>
 
                     <!-- AUTO LEARNING LOG RESULTS -->
-                    <div v-if="autoLearningLogs.length > 0" class="mt-4 p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2 text-xs">
-                        <div class="font-bold text-cyan-400 flex items-center justify-between">
+                    <div v-if="autoLearningLogs.length > 0" class="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+                        <div class="font-bold text-cyan-700 flex items-center justify-between">
                             <span>Log Hasil Auto-Learning Sintetis:</span>
-                            <span class="text-gray-500 text-[11px]">[[ autoLearningLogs.length ]] Pola Diproses</span>
+                            <span class="text-slate-500 text-[11px]">[[ autoLearningLogs.length ]] Pola Diproses</span>
                         </div>
-                        <div v-for="(log, idx) in autoLearningLogs" :key="idx" class="p-2.5 rounded bg-gray-900 border border-gray-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div v-for="(log, idx) in autoLearningLogs" :key="idx" class="p-2.5 rounded bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
                             <div class="space-y-0.5">
-                                <span class="font-mono text-white text-xs font-semibold">[[ log.url ]]</span>
-                                <span class="block text-gray-400 text-[11px]">Confidence GA+RF: <span class="text-red-400 font-bold">[[ log.phishing_confidence ]]%</span></span>
+                                <span class="font-mono text-slate-900 text-xs font-semibold">[[ log.url ]]</span>
+                                <span class="block text-slate-500 text-[11px]">Confidence GA+RF: <span class="text-red-600 font-bold">[[ log.phishing_confidence ]]%</span></span>
                             </div>
-                            <span class="px-2 py-1 rounded bg-red-500/20 text-red-300 font-medium text-[11px] border border-red-500/30 whitespace-nowrap">
-                                ✓ Otomatis Masuk tbl_blacklist
+                            <span class="px-2 py-1 rounded bg-red-50 text-red-700 font-semibold text-[11px] border border-red-200 whitespace-nowrap">
+                                ✓ Otomatis Masuk tbl_blacklist MySQL
                             </span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= TAB 3: BLACKLIST MANAGER ================= -->
+            <!-- ================= TAB 4: BLACKLIST MANAGER (MYSQL) ================= -->
             <section v-if="activeTab === 'blacklist'" class="space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h2 class="text-2xl font-heading font-extrabold text-white">Manajemen Database Blacklist (tbl_blacklist)</h2>
-                        <p class="text-sm text-gray-400">Daftar tautan berbahaya yang disaring pada Lapisan Pertahanan Pertama.</p>
+                        <h2 class="text-2xl font-heading font-extrabold text-slate-900">Manajemen Database Blacklist (tbl_blacklist MySQL)</h2>
+                        <p class="text-sm text-slate-500">Daftar tautan berbahaya yang disaring pada Lapisan Pertahanan Pertama.</p>
                     </div>
                     <button @click="showAddBlacklistModal = true" class="px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-600/20 transition">
                         <i class="fa-solid fa-plus"></i> Tambah URL Manual
@@ -359,11 +573,11 @@
                 </div>
 
                 <!-- BLACKLIST TABLE -->
-                <div class="glass-card rounded-2xl overflow-hidden border border-gray-800">
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-200">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-gray-950/80 text-gray-400 text-xs font-semibold uppercase tracking-wider border-b border-gray-800">
+                                <tr class="bg-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider border-b border-slate-200">
                                     <th class="p-4">ID</th>
                                     <th class="p-4">URL Blacklist</th>
                                     <th class="p-4">Domain</th>
@@ -373,32 +587,32 @@
                                     <th class="p-4 text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-800/60 text-xs text-gray-300">
-                                <tr v-for="item in blacklists" :key="item.id" class="hover:bg-gray-800/30 transition">
-                                    <td class="p-4 font-mono font-bold text-gray-400">#[[ item.id ]]</td>
-                                    <td class="p-4 font-mono font-bold text-red-400 max-w-xs truncate">[[ item.url ]]</td>
-                                    <td class="p-4 font-mono text-gray-300">[[ item.domain ]]</td>
-                                    <td class="p-4 text-gray-400">[[ item.reason ]]</td>
+                            <tbody class="divide-y divide-slate-200 text-xs text-slate-700">
+                                <tr v-for="item in blacklists" :key="item.id" class="hover:bg-slate-50 transition">
+                                    <td class="p-4 font-mono font-bold text-slate-400">#[[ item.id ]]</td>
+                                    <td class="p-4 font-mono font-bold text-red-600 max-w-xs truncate">[[ item.url ]]</td>
+                                    <td class="p-4 font-mono text-slate-700">[[ item.domain ]]</td>
+                                    <td class="p-4 text-slate-600">[[ item.reason ]]</td>
                                     <td class="p-4">
-                                        <span v-if="item.source === 'zero_day'" class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 font-medium">
+                                        <span v-if="item.source === 'zero_day'" class="px-2 py-0.5 rounded bg-purple-100 text-purple-700 border border-purple-200 font-semibold">
                                             🛡️ Zero-Day Defense
                                         </span>
-                                        <span v-else-if="item.source === 'auto_learning'" class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium">
+                                        <span v-else-if="item.source === 'auto_learning'" class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 border border-indigo-200 font-semibold">
                                             🤖 Auto-Learning
                                         </span>
-                                        <span v-else class="px-2 py-0.5 rounded bg-gray-800 text-gray-300 border border-gray-700 font-medium">
+                                        <span v-else class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300 font-medium">
                                             👤 Manual Admin
                                         </span>
                                     </td>
-                                    <td class="p-4 text-gray-400 font-mono text-[11px]">[[ item.created_at ]]</td>
+                                    <td class="p-4 text-slate-500 font-mono text-[11px]">[[ item.created_at ]]</td>
                                     <td class="p-4 text-center">
-                                        <button @click="deleteBlacklist(item.id)" class="px-2.5 py-1 rounded bg-red-950 hover:bg-red-900 text-red-400 border border-red-800 transition">
+                                        <button @click="deleteBlacklist(item.id)" class="px-2.5 py-1 rounded bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 transition">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr v-if="blacklists.length === 0">
-                                    <td colspan="7" class="p-8 text-center text-gray-500">Belum ada data blacklist tersimpan.</td>
+                                    <td colspan="7" class="p-8 text-center text-slate-400">Belum ada data blacklist tersimpan di MySQL.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -406,58 +620,67 @@
                 </div>
             </section>
 
-            <!-- ================= TAB 4: LOG RIWAYAT ================= -->
+            <!-- ================= TAB 5: LOG RIWAYAT (MYSQL) ================= -->
             <section v-if="activeTab === 'history'" class="space-y-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-2xl font-heading font-extrabold text-white">Log Rekam Jejak Pengecekan (tbl_riwayat)</h2>
-                        <p class="text-sm text-gray-400">Audit trail seluruh URL yang pernah dipindai oleh pengguna.</p>
+                        <h2 class="text-2xl font-heading font-extrabold text-slate-900">Log Rekam Jejak Pengecekan (tbl_riwayat MySQL)</h2>
+                        <p class="text-sm text-slate-500">Audit trail seluruh URL yang pernah dipindai beserta nilai 20 fitur leksikalnya.</p>
                     </div>
-                    <button @click="fetchHistory" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-gray-300">
+                    <button @click="fetchHistory" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-xs font-medium text-slate-700 shadow-sm">
                         <i class="fa-solid fa-rotate-right"></i> Refresh Log
                     </button>
                 </div>
 
                 <!-- HISTORY TABLE -->
-                <div class="glass-card rounded-2xl overflow-hidden border border-gray-800">
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-200">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-gray-950/80 text-gray-400 text-xs font-semibold uppercase tracking-wider border-b border-gray-800">
+                                <tr class="bg-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider border-b border-slate-200">
                                     <th class="p-4">ID</th>
                                     <th class="p-4">Waktu Scan</th>
                                     <th class="p-4">URL Target</th>
                                     <th class="p-4">Status Hasil</th>
                                     <th class="p-4">Confidence Score</th>
                                     <th class="p-4">Metode Lapisan</th>
+                                    <th class="p-4 text-center">Detail 20 Fitur</th>
                                     <th class="p-4 text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-800/60 text-xs text-gray-300">
-                                <tr v-for="log in historyLogs" :key="log.id" class="hover:bg-gray-800/30 transition">
-                                    <td class="p-4 font-mono font-bold text-gray-400">#[[ log.id ]]</td>
-                                    <td class="p-4 font-mono text-gray-400 text-[11px]">[[ log.scan_time ]]</td>
-                                    <td class="p-4 font-mono font-bold text-white max-w-xs truncate">[[ log.url ]]</td>
+                            <tbody class="divide-y divide-slate-200 text-xs text-slate-700">
+                                <tr v-for="log in historyLogs" :key="log.id" class="hover:bg-slate-50 transition">
+                                    <td class="p-4 font-mono font-bold text-slate-400">#[[ log.id ]]</td>
+                                    <td class="p-4 font-mono text-slate-500 text-[11px]">[[ log.scan_time ]]</td>
+                                    <td class="p-4 font-mono font-bold text-slate-900 max-w-xs truncate">[[ log.url ]]</td>
                                     <td class="p-4">
-                                        <span v-if="log.status === 'Phishing'" class="px-2.5 py-1 rounded-full bg-red-500/20 text-red-400 border border-red-500/40 font-bold uppercase text-[11px]">
+                                        <span v-if="log.status === 'Phishing'" class="px-2.5 py-1 rounded-full bg-red-100 text-red-700 border border-red-300 font-bold uppercase text-[11px]">
                                             ❌ Phishing
                                         </span>
-                                        <span v-else class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold uppercase text-[11px]">
-                                            ✅ Legitimate / Aman
+                                        <span v-else class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300 font-bold uppercase text-[11px]">
+                                            ✅ Aman
                                         </span>
                                     </td>
-                                    <td class="p-4 font-mono font-bold" :class="log.status === 'Phishing' ? 'text-red-400' : 'text-emerald-400'">
+                                    <td class="p-4 font-mono font-bold" :class="log.status === 'Phishing' ? 'text-red-600' : 'text-emerald-600'">
                                         [[ log.probability ]]%
                                     </td>
-                                    <td class="p-4 font-medium text-gray-300">[[ log.source_detection ]]</td>
+                                    <td class="p-4 font-medium text-slate-700">[[ log.source_detection ]]</td>
                                     <td class="p-4 text-center">
-                                        <button @click="deleteHistory(log.id)" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 text-gray-400 transition">
+                                        <button 
+                                            @click="openHistoryFeaturesModal(log)" 
+                                            class="px-2.5 py-1 rounded-lg bg-cyan-50 hover:bg-cyan-100 border border-cyan-200 text-cyan-800 font-semibold text-[11px] transition inline-flex items-center gap-1"
+                                        >
+                                            <i class="fa-solid fa-list-check"></i> Lihat Fitur
+                                        </button>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <button @click="deleteHistory(log.id)" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr v-if="historyLogs.length === 0">
-                                    <td colspan="7" class="p-8 text-center text-gray-500">Belum ada riwayat pengecekan URL.</td>
+                                    <td colspan="8" class="p-8 text-center text-slate-400">Belum ada riwayat pengecekan URL di MySQL.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -468,32 +691,137 @@
         </main>
 
         <!-- FOOTER -->
-        <footer class="border-t border-gray-800/80 bg-gray-950/60 py-6 text-center text-xs text-gray-500">
+        <footer class="border-t border-slate-200 bg-white/70 py-6 text-center text-xs text-slate-500">
             <div class="max-w-7xl mx-auto px-4">
                 <p>Projek Skripsi Teknik Informatika - Hafiz Alfarisyi (NIM: 221420112)</p>
-                <p class="mt-1">Implementasi Metode Hybrid Genetic Algorithm (GA) dan Random Forest (RF) untuk Deteksi Dini Link Phishing</p>
+                <p class="mt-1">Implementasi Metode Hybrid Genetic Algorithm (GA) dan Random Forest (RF) dengan Database MySQL</p>
             </div>
         </footer>
 
-        <!-- MODAL TAMBAH BLACKLIST MANUAL -->
-        <div v-if="showAddBlacklistModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="glass-card rounded-2xl p-6 max-w-md w-full space-y-4">
-                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
-                    <h3 class="text-lg font-bold text-white">Tambah URL Ke Blacklist Manual</h3>
-                    <button @click="showAddBlacklistModal = false" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+        <!-- ================= MODAL DETAIL SATU FITUR ================= -->
+        <div v-if="selectedFeatureKey" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="glass-card bg-white rounded-2xl p-6 max-w-lg w-full space-y-4 shadow-2xl border border-slate-200">
+                <div class="flex items-start justify-between border-b border-slate-200 pb-3">
+                    <div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-100 text-cyan-800">
+                            [[ getFeatureCategory(selectedFeatureKey) ]]
+                        </span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">[[ getFeatureName(selectedFeatureKey) ]]</h3>
+                        <span class="font-mono text-xs text-slate-500">Identifier: [[ selectedFeatureKey ]]</span>
+                    </div>
+                    <button @click="selectedFeatureKey = null" class="text-slate-400 hover:text-slate-700">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div v-if="selectedFeatureValue !== null" class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                        <span class="text-slate-600 font-medium">Nilai Terdeteksi Pada URL Ini:</span>
+                        <span class="font-mono font-extrabold text-base text-slate-900">[[ selectedFeatureValue ]]</span>
+                    </div>
+
+                    <div class="text-slate-700 leading-relaxed">
+                        <p class="font-semibold text-slate-900 mb-1">📖 Deskripsi Ilmiah:</p>
+                        [[ getFeatureDescription(selectedFeatureKey) ]]
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-2">
+                        <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900">
+                            <span class="font-bold block mb-0.5">✅ Kriteria Standar Aman:</span>
+                            <span>[[ getFeatureSafeCriteria(selectedFeatureKey) ]]</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-red-50 border border-red-200 text-red-900">
+                            <span class="font-bold block mb-0.5">⚠️ Indikasi Pola Phishing:</span>
+                            <span>[[ getFeatureRiskCriteria(selectedFeatureKey) ]]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2">
+                    <button @click="selectedFeatureKey = null" class="px-4 py-2 rounded-xl bg-slate-100 text-xs font-semibold text-slate-700 hover:bg-slate-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MODAL DETAIL 20 FITUR DARI LOG RIWAYAT ================= -->
+        <div v-if="selectedHistoryLog" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="glass-card bg-white rounded-2xl p-6 max-w-3xl w-full space-y-4 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+                <div class="flex items-start justify-between border-b border-slate-200 pb-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span 
+                                class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase"
+                                :class="selectedHistoryLog.status === 'Phishing' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'"
+                            >
+                                [[ selectedHistoryLog.status ]]
+                            </span>
+                            <span class="text-xs text-slate-500">Scan: [[ selectedHistoryLog.scan_time ]]</span>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mt-1 font-mono break-all">[[ selectedHistoryLog.url ]]</h3>
+                    </div>
+                    <button @click="selectedHistoryLog = null" class="text-slate-400 hover:text-slate-700">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs text-slate-600">
+                        <span>Ekstraksi 20 Vektor Fitur GA:</span>
+                        <span>Metode: <strong>[[ selectedHistoryLog.source_detection ]]</strong></span>
+                    </div>
+
+                    <div v-if="selectedHistoryLog.features && Object.keys(selectedHistoryLog.features).length > 0" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        <div 
+                            v-for="(val, key) in selectedHistoryLog.features" 
+                            :key="key"
+                            class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between"
+                        >
+                            <span class="text-slate-500 font-mono text-[11px] truncate">[[ key ]]</span>
+                            <div class="flex items-baseline justify-between mt-1">
+                                <span class="font-bold text-slate-900 font-mono text-sm">[[ val ]]</span>
+                                <span 
+                                    class="text-[10px] font-bold"
+                                    :class="getFeatureAssessment(key, val).status === 'risk' ? 'text-red-600' : 'text-emerald-600'"
+                                >
+                                    [[ getFeatureAssessment(key, val).status === 'risk' ? '⚠️' : '✓' ]]
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else class="p-6 text-center text-slate-400 text-xs">
+                        Tidak ada rekaman fitur JSON untuk log riwayat ini.
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2 border-t border-slate-100">
+                    <button @click="selectedHistoryLog = null" class="px-4 py-2 rounded-xl bg-slate-100 text-xs font-semibold text-slate-700 hover:bg-slate-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MODAL TAMBAH BLACKLIST MANUAL ================= -->
+        <div v-if="showAddBlacklistModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="glass-card bg-white rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <h3 class="text-lg font-bold text-slate-900">Tambah URL Ke Blacklist MySQL</h3>
+                    <button @click="showAddBlacklistModal = false" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
                 <form @submit.prevent="submitAddBlacklist" class="space-y-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">URL Target Phishing</label>
-                        <input v-model="newBlacklistUrl" type="text" placeholder="http://contoh-phishing.com" required class="glass-input w-full p-3 rounded-xl text-xs text-white">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">URL Target Phishing</label>
+                        <input v-model="newBlacklistUrl" type="text" placeholder="http://contoh-phishing.com" required class="glass-input w-full p-3 rounded-xl text-xs text-slate-900">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Alasan / Catatan Keterangan</label>
-                        <input v-model="newBlacklistReason" type="text" placeholder="Laporan penipuan pengguna" class="glass-input w-full p-3 rounded-xl text-xs text-white">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Alasan / Catatan Keterangan</label>
+                        <input v-model="newBlacklistReason" type="text" placeholder="Laporan penipuan pengguna" class="glass-input w-full p-3 rounded-xl text-xs text-slate-900">
                     </div>
                     <div class="flex justify-end gap-2 pt-2">
-                        <button type="button" @click="showAddBlacklistModal = false" class="px-4 py-2 rounded-xl bg-gray-800 text-xs font-medium text-gray-300">Batal</button>
-                        <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-600 text-xs font-semibold text-white shadow-lg shadow-cyan-600/30">Simpan Ke Blacklist</button>
+                        <button type="button" @click="showAddBlacklistModal = false" class="px-4 py-2 rounded-xl bg-slate-100 text-xs font-medium text-slate-700 hover:bg-slate-200">Batal</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-600 text-xs font-semibold text-white shadow-lg shadow-cyan-600/30 hover:bg-cyan-500">Simpan Ke MySQL</button>
                     </div>
                 </form>
             </div>
@@ -515,7 +843,13 @@
                     scanStep: 1,
                     scanStepText: 'Memeriksa Database Blacklist...',
                     scanResult: null,
-                    showFeatureModal: false,
+                    showFeatureModal: true, // Default terbuka agar langsung terlihat
+                    featureFilter: 'all', // 'all', 'risk', 'safe'
+                    selectedFeatureKey: null,
+                    selectedFeatureValue: null,
+                    selectedHistoryLog: null,
+                    dictSearch: '',
+                    selectedDictCategory: 'Semua',
                     stats: {},
                     blacklists: [],
                     historyLogs: [],
@@ -523,7 +857,191 @@
                     isAutoLearning: false,
                     showAddBlacklistModal: false,
                     newBlacklistUrl: '',
-                    newBlacklistReason: ''
+                    newBlacklistReason: '',
+                    
+                    // Kamus & Ensiklopedia 20 Fitur Leksikal Genetic Algorithm
+                    lexicalDictionary: {
+                        "URLLength": {
+                            "name": "Panjang Total URL",
+                            "category": "Struktur URL",
+                            "description": "Menghitung jumlah total karakter pada string URL. URL phishing cenderung memiliki panjang lebih dari 54 karakter untuk menyembunyikan token atau subdomain palsu.",
+                            "safe_criteria": "<= 54 karakter",
+                            "risk_criteria": "> 54 karakter"
+                        },
+                        "IsDomainIP": {
+                            "name": "Format Alamat IP",
+                            "category": "Domain & Host",
+                            "description": "Mendeteksi apakah host URL menggunakan alamat IP numerik mentah (misal: 192.168.1.1) tanpa nama domain resmi terdaftar (FQDN).",
+                            "safe_criteria": "0 (Domain FQDN Sah)",
+                            "risk_criteria": "1 (Alamat IP Mentah)"
+                        },
+                        "CharContinuationRate": {
+                            "name": "Tingkat Kontinuitas Karakter",
+                            "category": "Leksikal & Pola",
+                            "description": "Rasio kesinambungan karakter leksikal URL. Nilai rendah mengindikasikan struktur nama domain/path yang terdistorsi atau teracak secara artifisial.",
+                            "safe_criteria": ">= 0.85 (Stabil)",
+                            "risk_criteria": "< 0.85 (Terdistorsi / Acak)"
+                        },
+                        "TLDLength": {
+                            "name": "Panjang Karakter TLD",
+                            "category": "Domain & Host",
+                            "description": "Jumlah karakter pada ekstensi domain (contoh: .com = 3, .online = 6). TLD yang panjang atau tidak lazim sering dipakai penyedia domain gratis penipuan.",
+                            "safe_criteria": "2 - 4 karakter (.com, .id, .org)",
+                            "risk_criteria": ">= 5 karakter atau TLD berisiko"
+                        },
+                        "NoOfSubDomain": {
+                            "name": "Jumlah Subdomain",
+                            "category": "Domain & Host",
+                            "description": "Banyaknya tingkatan subdomain pada URL. Penyerang sering menyisipkan subdomain berantai (contoh: bca.klik.login.domain-palsu.com) untuk meniru brand asli.",
+                            "safe_criteria": "<= 1 subdomain (atau www)",
+                            "risk_criteria": ">= 2 subdomain berantai"
+                        },
+                        "HasObfuscation": {
+                            "name": "Deteksi Obfuscation / Penyamaran",
+                            "category": "Penyamaran & Encoding",
+                            "description": "Mendeteksi keberadaan pola manipulasi URL seperti % hex encoding, karakter @ untuk redirect, atau double slash '//' di luar protokol.",
+                            "safe_criteria": "0 (URL Bersih / Polos)",
+                            "risk_criteria": "1 (Terdapat Pola Penyamaran)"
+                        },
+                        "ObfuscationRatio": {
+                            "name": "Rasio Karakter Obfuscation",
+                            "category": "Penyamaran & Encoding",
+                            "description": "Persentase proporsi karakter penyamar / hex encoding نسبت terhadap total panjang URL.",
+                            "safe_criteria": "<= 0.02 (Wajar)",
+                            "risk_criteria": "> 0.02 (Banyak Simbol Hex/Obf)"
+                        },
+                        "NoOfDegitsInURL": {
+                            "name": "Jumlah Karakter Angka",
+                            "category": "Struktur URL",
+                            "description": "Banyaknya karakter angka numerik (0-9) di dalam string URL. URL phishing sering memuat ID sesi buatan atau nomor acak panjang.",
+                            "safe_criteria": "<= 3 angka",
+                            "risk_criteria": "> 3 angka"
+                        },
+                        "NoOfQMarkInURL": {
+                            "name": "Jumlah Tanda Tanya (?)",
+                            "category": "Query & Parameter",
+                            "description": "Jumlah tanda tanya pemisah query parameter pada URL. Sering dimanipulasi pada serangan skimming formulir login palsu.",
+                            "safe_criteria": "<= 1 tanda tanya",
+                            "risk_criteria": "> 1 tanda tanya"
+                        },
+                        "SpacialCharRatioInURL": {
+                            "name": "Rasio Simbol Khusus",
+                            "category": "Leksikal & Pola",
+                            "description": "Proporsi simbol khusus (@, -, _, =, ?, &, %, ., ~, +, #, :, ;) terhadap total karakter URL.",
+                            "safe_criteria": "<= 0.12 (Standar)",
+                            "risk_criteria": "> 0.12 (Banyak Simbol Khusus)"
+                        },
+                        "IsHTTPS": {
+                            "name": "Protokol Keamanan HTTPS",
+                            "category": "Protokol & Keamanan",
+                            "description": "Memeriksa apakah URL menggunakan enkripsi TLS/SSL (HTTPS) atau HTTP biasa yang tidak terenkripsi.",
+                            "safe_criteria": "1 (HTTPS Aktif)",
+                            "risk_criteria": "0 (HTTP Biasa / Tidak Aman)"
+                        },
+                        "HasTitle": {
+                            "name": "Struktur Judul Leksikal",
+                            "category": "Semantik Leksikal",
+                            "description": "Indikator keteraturan sintaks penamaan dan judul domain sesuai hierarki web sah.",
+                            "safe_criteria": "1 (Memiliki Struktur Sah)",
+                            "risk_criteria": "0 (Terdistorsi / Rusak)"
+                        },
+                        "IsResponsive": {
+                            "name": "Format Responsif Leksikal",
+                            "category": "Semantik Leksikal",
+                            "description": "Karakteristik path URL yang mencerminkan standar arsitektur web aplikasi modern yang responsif.",
+                            "safe_criteria": "1 (Format Modern)",
+                            "risk_criteria": "0 (Format Kuno / Meragukan)"
+                        },
+                        "NoOfPopup": {
+                            "name": "Indikator Popup Leksikal",
+                            "category": "Semantik Leksikal",
+                            "description": "Deteksi parameter penanganan dialog modal atau pop-up instan yang sering memicu phishing alert palsu.",
+                            "safe_criteria": "0 (Tanpa Trigger Popup)",
+                            "risk_criteria": "> 0 (Terdapat Trigger Popup)"
+                        },
+                        "HasExternalFormSubmit": {
+                            "name": "Form Action Eksternal",
+                            "category": "Interaksi & Form",
+                            "description": "Mendeteksi parameter formulir yang mengarahkan pengiriman data (POST action) ke host pihak ketiga yang berbeda.",
+                            "safe_criteria": "0 (Internal Host)",
+                            "risk_criteria": "1 (Mengarahkan ke Eksternal)"
+                        },
+                        "HasSubmitButton": {
+                            "name": "Elemen Submit Interaktif",
+                            "category": "Interaksi & Form",
+                            "description": "Ketersediaan parameter aksi pengiriman data form yang sah.",
+                            "safe_criteria": "1 (Elemen Lengkap)",
+                            "risk_criteria": "0 (Fake Clone Frame)"
+                        },
+                        "HasHiddenFields": {
+                            "name": "Input Field Tersembunyi",
+                            "category": "Interaksi & Form",
+                            "description": "Indikator field tersembunyi (hidden input) yang kerap dipakai skimming credential atau stealing token rahasia.",
+                            "safe_criteria": "0 (Transparan)",
+                            "risk_criteria": "1 (Field Tersembunyi)"
+                        },
+                        "Pay": {
+                            "name": "Kata Kunci Finansial / Payment",
+                            "category": "Finansial & Brand",
+                            "description": "Mendeteksi kata kunci pembayaran/keuangan (pay, billing, card, payment, wallet, crypto). Domain tidak resmi dengan keyword ini sangat berisiko.",
+                            "safe_criteria": "0 (Non-Finansial) atau Domain Resmi",
+                            "risk_criteria": "1 pada domain tidak resmi"
+                        },
+                        "HasCopyrightInfo": {
+                            "name": "Integritas Hak Cipta Domain",
+                            "category": "Semantik Leksikal",
+                            "description": "Indikator legitimasi kepemilikan merek dan domain resmi vs domain clone penipu.",
+                            "safe_criteria": "1 (Domain Sah / Terpercaya)",
+                            "risk_criteria": "0 (Domain Tidak Dikenal)"
+                        },
+                        "NoOfEmptyRef": {
+                            "name": "Referensi Tautan Kosong (#)",
+                            "category": "Semantik Leksikal",
+                            "description": "Banyaknya tautan kosong '#' pada halaman. Template phishing sering menyisakan banyak tombol mati / empty ref.",
+                            "safe_criteria": ">= 1 (Struktur Utuh)",
+                            "risk_criteria": "0 pada situs penipuan statis"
+                        }
+                    }
+                }
+            },
+            computed: {
+                dictionaryCategories() {
+                    const cats = new Set(['Semua']);
+                    for (const key in this.lexicalDictionary) {
+                        cats.add(this.lexicalDictionary[key].category);
+                    }
+                    return Array.from(cats);
+                },
+                filteredDictionary() {
+                    const result = {};
+                    const q = this.dictSearch.trim().toLowerCase();
+                    const cat = this.selectedDictCategory;
+
+                    for (const key in this.lexicalDictionary) {
+                        const item = this.lexicalDictionary[key];
+                        const matchCat = (cat === 'Semua' || item.category === cat);
+                        const matchQuery = !q || key.toLowerCase().includes(q) || item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
+                        if (matchCat && matchQuery) {
+                            result[key] = item;
+                        }
+                    }
+                    return result;
+                },
+                filteredFeatures() {
+                    if (!this.scanResult || !this.scanResult.features) return {};
+                    const features = this.scanResult.features;
+                    if (this.featureFilter === 'all') return features;
+
+                    const filtered = {};
+                    for (const key in features) {
+                        const assessment = this.getFeatureAssessment(key, features[key]);
+                        if (this.featureFilter === 'risk' && assessment.status === 'risk') {
+                            filtered[key] = features[key];
+                        } else if (this.featureFilter === 'safe' && assessment.status === 'safe') {
+                            filtered[key] = features[key];
+                        }
+                    }
+                    return filtered;
                 }
             },
             mounted() {
@@ -543,19 +1061,78 @@
                         alert("Tidak dapat mengakses clipboard secara otomatis. Silakan paste manual.");
                     }
                 },
+                getFeatureIndex(key) {
+                    const keys = Object.keys(this.lexicalDictionary);
+                    return keys.indexOf(key) + 1;
+                },
+                getFeatureName(key) {
+                    return this.lexicalDictionary[key] ? this.lexicalDictionary[key].name : key;
+                },
+                getFeatureCategory(key) {
+                    return this.lexicalDictionary[key] ? this.lexicalDictionary[key].category : 'Leksikal';
+                },
+                getFeatureDescription(key) {
+                    return this.lexicalDictionary[key] ? this.lexicalDictionary[key].description : '-';
+                },
+                getFeatureSafeCriteria(key) {
+                    return this.lexicalDictionary[key] ? this.lexicalDictionary[key].safe_criteria : '-';
+                },
+                getFeatureRiskCriteria(key) {
+                    return this.lexicalDictionary[key] ? this.lexicalDictionary[key].risk_criteria : '-';
+                },
+                getFeatureAssessment(key, val) {
+                    const v = parseFloat(val) || 0;
+                    if (key === 'URLLength') return v <= 54 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Panjang (>54)' };
+                    if (key === 'IsDomainIP') return v === 0 ? { status: 'safe', label: 'Domain Sah' } : { status: 'risk', label: 'Alamat IP' };
+                    if (key === 'CharContinuationRate') return v >= 0.85 ? { status: 'safe', label: 'Stabil' } : { status: 'risk', label: 'Terdistorsi' };
+                    if (key === 'TLDLength') return v <= 4 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'TLD Berisiko' };
+                    if (key === 'NoOfSubDomain') return v <= 1 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Multi-Subdomain' };
+                    if (key === 'HasObfuscation') return v === 0 ? { status: 'safe', label: 'Bersih' } : { status: 'risk', label: 'Ada Obfuscation' };
+                    if (key === 'ObfuscationRatio') return v <= 0.02 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Rasio Tinggi' };
+                    if (key === 'NoOfDegitsInURL') return v <= 3 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Banyak Angka' };
+                    if (key === 'NoOfQMarkInURL') return v <= 1 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Banyak Query' };
+                    if (key === 'SpacialCharRatioInURL') return v <= 0.12 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Banyak Simbol' };
+                    if (key === 'IsHTTPS') return v === 1 ? { status: 'safe', label: 'HTTPS Aktif' } : { status: 'risk', label: 'HTTP Biasa' };
+                    if (key === 'HasTitle') return v === 1 ? { status: 'safe', label: 'Sah' } : { status: 'risk', label: 'Terdistorsi' };
+                    if (key === 'IsResponsive') return v === 1 ? { status: 'safe', label: 'Modern' } : { status: 'risk', label: 'Kuno' };
+                    if (key === 'NoOfPopup') return v === 0 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Ada Popup' };
+                    if (key === 'HasExternalFormSubmit') return v === 0 ? { status: 'safe', label: 'Internal' } : { status: 'risk', label: 'Form Eksternal' };
+                    if (key === 'HasSubmitButton') return v === 1 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Fake Frame' };
+                    if (key === 'HasHiddenFields') return v === 0 ? { status: 'safe', label: 'Transparan' } : { status: 'risk', label: 'Ada Hidden Field' };
+                    if (key === 'Pay') return v === 0 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Kata Finansial' };
+                    if (key === 'HasCopyrightInfo') return v === 1 ? { status: 'safe', label: 'Sah' } : { status: 'risk', label: 'Tidak Dikenal' };
+                    if (key === 'NoOfEmptyRef') return v >= 1 ? { status: 'safe', label: 'Normal' } : { status: 'risk', label: 'Empty Ref' };
+                    return { status: 'safe', label: 'Normal' };
+                },
+                getFeatureCount(type) {
+                    if (!this.scanResult || !this.scanResult.features) return 0;
+                    let count = 0;
+                    for (const key in this.scanResult.features) {
+                        const assessment = this.getFeatureAssessment(key, this.scanResult.features[key]);
+                        if (assessment.status === type) count++;
+                    }
+                    return count;
+                },
+                openFeatureDetailModal(key, val) {
+                    this.selectedFeatureKey = key;
+                    this.selectedFeatureValue = val;
+                },
+                openHistoryFeaturesModal(log) {
+                    this.selectedHistoryLog = log;
+                },
                 async runScan() {
                     if (!this.scanUrlInput.trim()) return;
 
                     this.isScanning = true;
                     this.scanResult = null;
                     this.scanStep = 1;
-                    this.scanStepText = 'Memeriksa Database Blacklist (tbl_blacklist)...';
+                    this.scanStepText = 'Memeriksa Database Blacklist MySQL (tbl_blacklist)...';
 
-                    await new Promise(r => setTimeout(r, 300));
+                    await new Promise(r => setTimeout(r, 250));
                     this.scanStep = 2;
                     this.scanStepText = 'Ekstraksi 20 Fitur Leksikal Genetic Algorithm...';
 
-                    await new Promise(r => setTimeout(r, 300));
+                    await new Promise(r => setTimeout(r, 250));
                     this.scanStep = 3;
                     this.scanStepText = 'Klasifikasi Prediksi Model Random Forest...';
 
@@ -572,6 +1149,7 @@
                         const data = await res.json();
                         if (res.ok) {
                             this.scanResult = data;
+                            this.showFeatureModal = true;
                             this.fetchStats();
                             this.fetchBlacklists();
                             this.fetchHistory();
@@ -580,7 +1158,7 @@
                         }
                     } catch (e) {
                         console.error(e);
-                        alert("Gagal terhubung ke server backend.");
+                        alert("Gagal terhubung ke server backend MySQL.");
                     } finally {
                         this.isScanning = false;
                     }
@@ -604,7 +1182,7 @@
                     } catch (e) { console.error(e); }
                 },
                 async deleteBlacklist(id) {
-                    if (!confirm("Hapus URL ini dari daftar blacklist?")) return;
+                    if (!confirm("Hapus URL ini dari daftar blacklist MySQL?")) return;
                     try {
                         await fetch(`/api/blacklist/${id}`, { method: 'DELETE' });
                         this.fetchBlacklists();
