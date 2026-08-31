@@ -1,0 +1,82 @@
+<!-- ================= HEADER / NAVIGATION COMPONENT ================= -->
+<header class="border-b border-slate-200/80 bg-white/85 backdrop-blur-lg sticky top-0 z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <!-- BRAND LOGO & SYSTEM STATUS -->
+            <div class="flex items-center gap-3.5 cursor-pointer select-none" @click="activeTab = 'scanner'">
+                <div
+                    class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-cyan-600 via-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-600/25 transition hover:scale-105">
+                    <i class="fa-solid fa-shield-halved text-2xl text-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-heading text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
+                            Phish<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Guard</span>
+                        </span>
+                        <span class="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                            MySQL Ready
+                        </span>
+                    </div>
+                    <span class="block text-[11px] sm:text-xs font-medium text-slate-500">
+                        Hybrid Genetic Algorithm & Random Forest
+                    </span>
+                </div>
+            </div>
+
+            <!-- DESKTOP TABS NAVIGATION -->
+            <nav class="hidden lg:flex items-center space-x-1.5 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200 shadow-inner">
+                <button @click="activeTab = 'scanner'" :class="{'active': activeTab === 'scanner'}"
+                    class="nav-tab px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition flex items-center gap-2">
+                    <i class="fa-solid fa-radar text-cyan-600"></i> URL Scanner
+                </button>
+                <button @click="activeTab = 'dictionary'" :class="{'active': activeTab === 'dictionary'}"
+                    class="nav-tab px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-blue-600"></i> Kamus 20 Fitur GA
+                </button>
+                <button @click="activeTab = 'dashboard'" :class="{'active': activeTab === 'dashboard'}"
+                    class="nav-tab px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie text-purple-600"></i> Dashboard
+                </button>
+                <button @click="activeTab = 'blacklist'" :class="{'active': activeTab === 'blacklist'}"
+                    class="nav-tab px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition flex items-center gap-2">
+                    <i class="fa-solid fa-ban text-red-600"></i> Blacklist
+                    <span class="badge-tab bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full border border-red-200 font-bold transition">
+                        [[ stats.blacklist_count || 0 ]]
+                    </span>
+                </button>
+                <button @click="activeTab = 'history'" :class="{'active': activeTab === 'history'}"
+                    class="nav-tab px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-indigo-600"></i> Log Riwayat
+                </button>
+            </nav>
+        </div>
+
+        <!-- TABLET & MOBILE NAVIGATION (HORIZONTAL SCROLL BAR) -->
+        <div class="flex lg:hidden overflow-x-auto no-scrollbar py-2.5 gap-2 border-t border-slate-100">
+            <button @click="activeTab = 'scanner'" :class="{'active': activeTab === 'scanner'}"
+                class="nav-tab px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 whitespace-nowrap flex items-center gap-1.5 bg-slate-100 border border-slate-200 flex-shrink-0">
+                <i class="fa-solid fa-radar text-cyan-600"></i> Scanner
+            </button>
+            <button @click="activeTab = 'dictionary'" :class="{'active': activeTab === 'dictionary'}"
+                class="nav-tab px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 whitespace-nowrap flex items-center gap-1.5 bg-slate-100 border border-slate-200 flex-shrink-0">
+                <i class="fa-solid fa-book-open text-blue-600"></i> Kamus GA
+            </button>
+            <button @click="activeTab = 'dashboard'" :class="{'active': activeTab === 'dashboard'}"
+                class="nav-tab px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 whitespace-nowrap flex items-center gap-1.5 bg-slate-100 border border-slate-200 flex-shrink-0">
+                <i class="fa-solid fa-chart-pie text-purple-600"></i> Dashboard
+            </button>
+            <button @click="activeTab = 'blacklist'" :class="{'active': activeTab === 'blacklist'}"
+                class="nav-tab px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 whitespace-nowrap flex items-center gap-1.5 bg-slate-100 border border-slate-200 flex-shrink-0">
+                <i class="fa-solid fa-ban text-red-600"></i> Blacklist
+                <span class="badge-tab bg-red-100 text-red-700 text-[10px] px-1.5 py-0.2 rounded-full font-bold">
+                    [[ stats.blacklist_count || 0 ]]
+                </span>
+            </button>
+            <button @click="activeTab = 'history'" :class="{'active': activeTab === 'history'}"
+                class="nav-tab px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 whitespace-nowrap flex items-center gap-1.5 bg-slate-100 border border-slate-200 flex-shrink-0">
+                <i class="fa-solid fa-clock-rotate-left text-indigo-600"></i> Riwayat
+            </button>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,77 @@
+<!-- ================= TAB 2: KAMUS 20 FITUR GA ================= -->
+<section v-if="activeTab === 'dictionary'" class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900">
+                Kamus Lengkap 20 Fitur Leksikal Genetic Algorithm
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                Referensi parameter ekstraksi fitur leksikal pada dataset PhiUSIIL dan klasifikasi model Random Forest.
+            </p>
+        </div>
+        <div class="relative w-full sm:w-80">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input v-model="dictSearch" type="text" placeholder="Cari nama atau parameter fitur..."
+                class="glass-input w-full pl-9 pr-8 py-2.5 rounded-xl text-xs text-slate-900 focus:outline-none">
+            <button v-if="dictSearch" @click="dictSearch = ''"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- CATEGORY FILTER CHIPS -->
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
+        <button v-for="cat in dictionaryCategories" :key="cat" @click="selectedDictCategory = cat"
+            :class="selectedDictCategory === cat ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold shadow-md' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'"
+            class="px-4 py-2 rounded-xl transition whitespace-nowrap flex-shrink-0">
+            [[ cat ]]
+        </button>
+    </div>
+
+    <!-- CARDS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div v-for="(item, key) in filteredDictionary" :key="key"
+            class="glass-card p-5 sm:p-6 rounded-2xl space-y-4 shadow-sm hover:shadow-xl transition flex flex-col justify-between group">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span
+                        class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-cyan-50 text-cyan-800 border border-cyan-200">
+                        [[ item.category ]]
+                    </span>
+                    <span class="font-mono text-slate-400 font-bold text-xs">
+                        Fitur #[[ getFeatureIndex(key) ]]
+                    </span>
+                </div>
+
+                <div>
+                    <h3 class="font-heading font-extrabold text-slate-900 text-lg group-hover:text-cyan-700 transition">
+                        [[ item.name ]]
+                    </h3>
+                    <div class="font-mono text-xs font-semibold text-cyan-700 bg-cyan-50 px-2.5 py-0.5 rounded-md inline-block mt-1">
+                        ID: [[ key ]]
+                    </div>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed pt-1">
+                    [[ item.description ]]
+                </p>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 space-y-2.5 text-xs">
+                <div class="p-3 rounded-xl bg-emerald-50/90 border border-emerald-200 text-emerald-900">
+                    <div class="font-bold flex items-center gap-1.5 text-[11px] text-emerald-800">
+                        <i class="fa-solid fa-circle-check text-emerald-600"></i> Kriteria Normal / Sah:
+                    </div>
+                    <div class="text-[11px] mt-0.5 font-medium">[[ item.safe_criteria ]]</div>
+                </div>
+                <div class="p-3 rounded-xl bg-red-50/90 border border-red-200 text-red-900">
+                    <div class="font-bold flex items-center gap-1.5 text-[11px] text-red-800">
+                        <i class="fa-solid fa-triangle-exclamation text-red-600"></i> Indikasi Risiko Phishing:
+                    </div>
+                    <div class="text-[11px] mt-0.5 font-medium">[[ item.risk_criteria ]]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,155 @@
+/* ===================================================
+   PhishGuard - Premium Design System & Stylesheet
+   Hybrid GA + Random Forest (MySQL Edition)
+   =================================================== */
+
+:root {
+    --brand-cyan: #0891B2;
+    --brand-blue: #2563EB;
+    --brand-indigo: #4F46E5;
+    --brand-phish: #DC2626;
+    --brand-safe: #059669;
+}
+
+/* Prevent Vue FOUC (Flash of Unstyled Content) on refresh */
+[v-cloak] {
+    display: none !important;
+}
+
+/* Custom Base & Smooth Typography */
+html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: #F8FAFC;
+    background-image:
+        radial-gradient(circle at 10% 10%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(99, 102, 241, 0.06) 0%, transparent 50%);
+    color: #1E293B;
+    min-height: 100vh;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04), 0 4px 6px -2px rgba(15, 23, 42, 0.02);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 20px 35px -10px rgba(6, 182, 212, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+}
+
+/* Glass Form Inputs */
+.glass-input {
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    color: #0F172A;
+    transition: all 0.2s ease-in-out;
+}
+
+.glass-input:focus {
+    border-color: #0891B2;
+    box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.14);
+    background: #FFFFFF;
+}
+
+/* Status Glow Effects */
+.glow-phish {
+    box-shadow: 0 0 35px rgba(220, 38, 38, 0.22);
+    border-color: rgba(239, 68, 68, 0.5) !important;
+}
+
+.glow-safe {
+    box-shadow: 0 0 35px rgba(5, 150, 105, 0.22);
+    border-color: rgba(16, 185, 129, 0.5) !important;
+}
+
+/* Navigation Tab Active State */
+.nav-tab {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.nav-tab.active {
+    background: linear-gradient(135deg, #0891B2 0%, #2563EB 100%);
+    color: #FFFFFF !important;
+    font-weight: 600;
+    box-shadow: 0 4px 14px 0 rgba(8, 145, 178, 0.35);
+}
+
+.nav-tab.active i {
+    color: #FFFFFF !important;
+}
+
+.nav-tab.active .badge-tab {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Animated Shimmer Bar */
+@keyframes shimmerAnim {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.shimmer-gradient {
+    background: linear-gradient(90deg, #0891B2 0%, #3B82F6 40%, #06B6D4 60%, #0891B2 100%);
+    background-size: 200% 100%;
+    animation: shimmerAnim 2.5s infinite linear;
+}
+
+/* Pulse animation */
+@keyframes pulseSubtle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.pulse-badge {
+    animation: pulseSubtle 2.2s infinite ease-in-out;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom Scrollbar for Modal and Tables */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F1F5F9;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* Mobile Touch Feedback */
+button:active {
+    transform: scale(0.98);
+}

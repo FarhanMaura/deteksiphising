@@ -1,0 +1,117 @@
+<!-- ================= TAB 3: DASHBOARD ANALYTICS (MYSQL) ================= -->
+<section v-if="activeTab === 'dashboard'" class="space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+            <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900">
+                Dashboard Monitoring Sistem (MySQL)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                Ringkasan telemetri deteksi ancaman phishing dan status pertahanan database lokal MySQL.
+            </p>
+        </div>
+    </div>
+
+    <!-- STATS CARDS GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div class="glass-card p-6 rounded-2xl space-y-2 border-t-4 border-t-cyan-500 shadow-md">
+            <div class="flex items-center justify-between text-cyan-600">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Scan URL</span>
+                <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
+                    <i class="fa-solid fa-globe text-lg text-cyan-600"></i>
+                </div>
+            </div>
+            <div class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">
+                [[ stats.total_scans || 0 ]]
+            </div>
+            <p class="text-xs text-slate-500">Seluruh transaksi pemindaian</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl space-y-2 border-t-4 border-t-red-500 shadow-md">
+            <div class="flex items-center justify-between text-red-600">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Phishing Terdeteksi</span>
+                <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
+                    <i class="fa-solid fa-triangle-exclamation text-lg text-red-600"></i>
+                </div>
+            </div>
+            <div class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">
+                [[ stats.phishing_count || 0 ]]
+            </div>
+            <p class="text-xs text-slate-500">Ancaman berhasil dicegat</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl space-y-2 border-t-4 border-t-emerald-500 shadow-md">
+            <div class="flex items-center justify-between text-emerald-600">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">URL Aman (Legitimate)</span>
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                    <i class="fa-solid fa-circle-check text-lg text-emerald-600"></i>
+                </div>
+            </div>
+            <div class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">
+                [[ stats.legitimate_count || 0 ]]
+            </div>
+            <p class="text-xs text-slate-500">Tautan diverifikasi sah</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl space-y-2 border-t-4 border-t-purple-500 shadow-md">
+            <div class="flex items-center justify-between text-purple-600">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Zero-Day Blacklisted</span>
+                <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
+                    <i class="fa-solid fa-shield-virus text-lg text-purple-600"></i>
+                </div>
+            </div>
+            <div class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">
+                [[ stats.zero_day_count || 0 ]]
+            </div>
+            <p class="text-xs text-slate-500">URL Phishing baru di-auto-blacklist</p>
+        </div>
+    </div>
+
+    <!-- DEMO DOSEN: AUTO-LEARNING ENGINE CONTROL -->
+    <div class="glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl space-y-5 border border-purple-200 shadow-lg bg-gradient-to-br from-white via-purple-50/20 to-white">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1">
+                <span
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-800 text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-robot"></i> Simulasi Pembelajaran Mandiri (Auto-Learning Idle Engine)
+                </span>
+                <h3 class="text-lg sm:text-xl font-heading font-bold text-slate-900">
+                    Generasi & Analisis Sintetis Link Phishing Zero-Day
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
+                    Fitur ini mensimulasikan sistem saat tidak digunakan (idle), di mana model GA+RF secara otomatis
+                    mempelajari variasi sintesis URL phishing baru tanpa melakukan crawling jaringan.
+                </p>
+            </div>
+            <button @click="triggerAutoLearning" :disabled="isAutoLearning"
+                class="px-6 py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-lg shadow-purple-600/25 transition disabled:opacity-50 whitespace-nowrap flex-shrink-0">
+                <i v-if="isAutoLearning" class="fa-solid fa-circle-notch fa-spin text-base"></i>
+                <i v-else class="fa-solid fa-wand-magic-sparkles text-base"></i>
+                <span>[[ isAutoLearning ? 'Mempelajari Pola Baru...' : 'Jalankan Auto-Learning' ]]</span>
+            </button>
+        </div>
+
+        <!-- AUTO LEARNING LOG RESULTS -->
+        <div v-if="autoLearningLogs.length > 0"
+            class="mt-4 p-4 sm:p-5 rounded-2xl bg-slate-50/90 border border-slate-200 space-y-3 text-xs">
+            <div class="font-bold text-slate-900 flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-purple-600"></i> Log Hasil Auto-Learning Sintetis:
+                </span>
+                <span class="text-slate-500 text-[11px] font-mono">[[ autoLearningLogs.length ]] Pola Diproses</span>
+            </div>
+            <div v-for="(log, idx) in autoLearningLogs" :key="idx"
+                class="p-3.5 rounded-xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm hover:border-purple-300 transition">
+                <div class="space-y-1 overflow-hidden">
+                    <span class="font-mono text-slate-900 text-xs font-bold break-all">[[ log.url ]]</span>
+                    <span class="block text-slate-500 text-[11px]">
+                        Confidence GA+RF: <strong class="text-red-600">[[ log.phishing_confidence ]]%</strong>
+                    </span>
+                </div>
+                <span
+                    class="px-3 py-1 rounded-lg bg-red-50 text-red-700 font-bold text-[11px] border border-red-200 whitespace-nowrap flex-shrink-0 self-start sm:self-auto">
+                    ✓ Otomatis Masuk tbl_blacklist MySQL
+                </span>
+            </div>
+        </div>
+    </div>
+</section>

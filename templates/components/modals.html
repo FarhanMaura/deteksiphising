@@ -1,0 +1,117 @@
+<!-- ================= MODAL DETAIL SATU FITUR ================= -->
+<div v-cloak v-if="selectedFeatureKey"
+    class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 transition-all">
+    <div
+        class="glass-card bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 max-w-lg w-full space-y-4 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-start justify-between border-b border-slate-100 pb-3.5">
+            <div>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-100 text-cyan-800 border border-cyan-200">
+                    [[ getFeatureCategory(selectedFeatureKey) ]]
+                </span>
+                <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900 mt-1">[[ getFeatureName(selectedFeatureKey) ]]</h3>
+                <span class="font-mono text-xs text-slate-500 font-semibold">Param ID: [[ selectedFeatureKey ]]</span>
+            </div>
+            <button @click="selectedFeatureKey = null" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <div class="space-y-3.5 text-xs">
+            <div v-if="selectedFeatureValue !== null"
+                class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between shadow-inner">
+                <span class="text-slate-600 font-semibold">Nilai Terdeteksi Pada URL:</span>
+                <span class="font-mono font-black text-base text-slate-900 bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-sm">
+                    [[ selectedFeatureValue ]]
+                </span>
+            </div>
+
+            <div class="text-slate-700 leading-relaxed space-y-1">
+                <p class="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-bookmark text-cyan-600"></i> Deskripsi Parameter:
+                </p>
+                <p class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-slate-600">
+                    [[ getFeatureDescription(selectedFeatureKey) ]]
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <div class="p-3.5 rounded-2xl bg-emerald-50/90 border border-emerald-200 text-emerald-950 space-y-1">
+                    <span class="font-bold block text-[11px] text-emerald-800">
+                        <i class="fa-solid fa-circle-check text-emerald-600"></i> Kriteria Normal / Sah:
+                    </span>
+                    <span class="text-[11px] font-medium leading-tight block">[[ getFeatureSafeCriteria(selectedFeatureKey) ]]</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-red-50/90 border border-red-200 text-red-950 space-y-1">
+                    <span class="font-bold block text-[11px] text-red-800">
+                        <i class="fa-solid fa-triangle-exclamation text-red-600"></i> Indikasi Risiko Phishing:
+                    </span>
+                    <span class="text-[11px] font-medium leading-tight block">[[ getFeatureRiskCriteria(selectedFeatureKey) ]]</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t border-slate-100">
+            <button @click="selectedFeatureKey = null"
+                class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 text-xs font-bold text-slate-700 hover:bg-slate-200 transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL DETAIL 20 FITUR DARI LOG RIWAYAT ================= -->
+<div v-cloak v-if="selectedHistoryLog"
+    class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 transition-all">
+    <div
+        class="glass-card bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 max-w-3xl w-full space-y-4 shadow-2xl border border-slate-200 max-h-[88vh] overflow-y-auto">
+        <div class="flex items-start justify-between border-b border-slate-100 pb-3.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-0.5 rounded-full text-xs font-bold uppercase"
+                        :class="selectedHistoryLog.status === 'Phishing' ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-emerald-100 text-emerald-700 border border-emerald-200'">
+                        [[ selectedHistoryLog.status ]]
+                    </span>
+                    <span class="text-xs text-slate-500 font-mono">Scan: [[ selectedHistoryLog.scan_time ]]</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-bold text-slate-900 font-mono break-all pt-1">
+                    [[ selectedHistoryLog.url ]]
+                </h3>
+            </div>
+            <button @click="selectedHistoryLog = null" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <div class="space-y-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-slate-600">
+                <span class="font-semibold">Ekstraksi 20 Vektor Fitur Genetic Algorithm:</span>
+                <span>Metode: <strong class="text-cyan-700">[[ selectedHistoryLog.source_detection ]]</strong></span>
+            </div>
+
+            <div v-if="selectedHistoryLog.features && Object.keys(selectedHistoryLog.features).length > 0"
+                class="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                <div v-for="(val, key) in selectedHistoryLog.features" :key="key"
+                    class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-1.5 hover:border-cyan-300 transition">
+                    <span class="text-slate-500 font-mono text-[11px] truncate font-semibold" :title="key">[[ key ]]</span>
+                    <div class="flex items-baseline justify-between pt-1 border-t border-slate-200/60">
+                        <span class="font-black text-slate-900 font-mono text-xs sm:text-sm">[[ val ]]</span>
+                        <span class="text-[10px] font-bold px-1.5 py-0.2 rounded"
+                            :class="getFeatureAssessment(key, val).status === 'risk' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'">
+                            [[ getFeatureAssessment(key, val).label ]]
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="p-8 text-center text-slate-400 text-xs">
+                Tidak ada rekaman fitur JSON untuk log riwayat ini.
+            </div>
+        </div>
+
+        <div class="flex justify-end pt-3 border-t border-slate-100">
+            <button @click="selectedHistoryLog = null"
+                class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 text-xs font-bold text-slate-700 hover:bg-slate-200 transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
